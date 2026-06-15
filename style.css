@@ -151,45 +151,39 @@ body { background: linear-gradient(135deg, #FEF08A, var(--bg-color)); min-height
 #music-toggle { position: fixed; top: 20px; right: 20px; z-index: 1000; width: 50px; height: 50px; }
 
 
-/* =========================================================
-   PERBAIKAN MINIMAL (HANYA INI YANG DITAMBAHKAN DARI KODE AWAL)
-   ========================================================= */
+/* =========================================================================
+   PERBAIKAN MINIMAL: CSS DI BAWAH INI UNTUK MERAPIKAN TAMPILAN DI HP 
+   ========================================================================= */
 
-/* 1. Posisi Ikon Kunci Hati Pas di Tengah */
-.login-box {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-.kunci-hati-icon {
-    margin: 0 auto 15px auto !important;
-}
+/* 1. Paksa Ikon Kunci Hati Lurus ke Tengah */
+.login-box { display: flex; flex-direction: column; align-items: center; }
+.kunci-hati-icon { margin: 0 auto 15px auto !important; }
 
-/* 2. Surat dikasih batas biar bisa di-scroll tanpa geser layar */
+/* 2. Surat Bisa Di-scroll Tanpa Menggeser Layar Luar */
 .typewriter {
     max-height: 40vh;
     overflow-y: auto;
+    scrollbar-width: thin;
+    padding-right: 10px;
 }
 .typewriter::-webkit-scrollbar { width: 4px; }
 .typewriter::-webkit-scrollbar-thumb { background-color: #ff4081; border-radius: 10px; }
 
-/* 3. Skala Galaxy dikecilkan khusus di HP */
-@media (max-width: 768px) {
-    #orbit-container {
-        transform: scale(0.75);
-        transform-origin: center center;
-    }
-}
-
-/* 4. Pengecilan Tombol (Buka Kado, Memories, dll) di layar HP */
+/* 3. Penyesuaian Ukuran Tombol & Ikon Galaksi Untuk Layar HP (Responsive) */
 @media (max-width: 500px) {
+    /* Kecilkan kartu pembungkus */
     .glass-card { width: 92%; padding: 1.5rem 1rem; }
-    .orbit-icon-sphere { width: 45px; height: 45px; font-size: 22px; }
-    .center-heart { width: 120px; height: 120px; }
     
+    /* Kecilkan ikon galaksi agar pas di layar tanpa perlu teknik scale CSS */
+    .orbit-icon-sphere { width: 42px !important; height: 42px !important; font-size: 20px !important; }
+    .orbit-label { font-size: 10px !important; padding: 2px 6px !important; }
+    .center-heart { width: 120px !important; height: 120px !important; }
+    
+    /* Pengecilan semua tombol utama agar tidak kebesaran */
     .pulse-btn {
-        padding: 8px 18px !important;
-        font-size: 0.9rem !important;
+        padding: 10px 20px !important;
+        font-size: 0.95rem !important;
         width: auto !important;
+        min-width: 150px;
     }
 }
