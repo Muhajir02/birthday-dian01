@@ -1,8 +1,14 @@
 :root { --bg-color: #FEF9C3; --nailong-yellow: #FDE68A; --dark-orange: #D97706; --accent-red: #F87171; --galaxy-bg: #05020a; }
 * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
 
-/* KUNCI ANTI-GESER KIRI KANAN */
-html, body { width: 100%; max-width: 100%; overflow-x: hidden !important; }
+/* KUNCI ANTI-GESER LAYAR LUAR */
+html, body { 
+    width: 100%; 
+    max-width: 100%; 
+    height: 100%; 
+    overflow: hidden !important; 
+    position: relative;
+}
 body { background: linear-gradient(135deg, #FEF08A, var(--bg-color)); min-height: 100vh; color: #444; overscroll-behavior-y: none; }
 
 .door { position: fixed; top: 0; width: 50%; height: 100%; background-color: var(--nailong-yellow); background-image: radial-gradient(rgba(255, 255, 255, 0.6) 3px, transparent 3px); background-size: 40px 40px; z-index: 15; transition: transform 1.5s cubic-bezier(0.77, 0, 0.175, 1); box-shadow: 0 0 20px rgba(0,0,0,0.2); will-change: transform; }
@@ -14,21 +20,39 @@ body { background: linear-gradient(135deg, #FEF08A, var(--bg-color)); min-height
 #door-left { left: 0; } #door-right { right: 0; }
 .door.open-left { transform: translate3d(-100%, 0, 0); } .door.open-right { transform: translate3d(100%, 0, 0); }
 
-/* SMOOTH SCROLL UNTUK HP */
+/* SCREEN UTAMA: Dipaksa mengunci layar total agar tidak bisa di-scroll naik turun */
 .screen { 
     position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
-    display: flex; flex-direction: column; align-items: center; justify-content: flex-start; 
+    display: flex; flex-direction: column; align-items: center; justify-content: center; 
     transition: opacity 1s, visibility 1s; z-index: 10; 
-    overflow-y: auto; overflow-x: hidden !important; 
-    padding: 20px 0 100px 0; 
+    overflow: hidden !important; 
+    padding: 20px; 
     -webkit-overflow-scrolling: touch; 
 }
 .screen.hidden { opacity: 0; visibility: hidden; pointer-events: none; z-index: -1; }
 
 #login-section { z-index: 50; justify-content: center; padding: 0; }
-.glass-card { position: relative; z-index: 10; background: rgba(254, 249, 195, 0.95); backdrop-filter: blur(10px); border: 2px solid rgba(255, 255, 255, 0.9); border-radius: 20px; padding: 2.5rem 2rem; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08); text-align: center; margin: auto; width: 90%; max-width: 500px; }
 
-/* FIX PATAH-PATAH: Hapus animasi box-shadow, tambah translateZ untuk memori HP */
+/* KONTAINER GLASS CARD: Dibuat kokoh statis di tengah layar, anti melar, anti geser */
+.glass-card { 
+    position: relative; z-index: 10; 
+    background: rgba(254, 249, 195, 0.95); 
+    backdrop-filter: blur(10px); 
+    border: 2px solid rgba(255, 255, 255, 0.9); 
+    border-radius: 20px; 
+    padding: 2rem 1.5rem; 
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08); 
+    text-align: center; 
+    margin: auto; 
+    width: 90%; 
+    max-width: 440px; 
+    max-height: 85vh; 
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    overflow: hidden !important;
+}
+
 .login-box { animation: floatingCard 3s ease-in-out infinite; transform: translate3d(0, 0, 0); will-change: transform; }
 @keyframes floatingCard { 0%, 100% { transform: translate3d(0, 0, 0); } 50% { transform: translate3d(0, -10px, 0); } }
 
@@ -54,7 +78,6 @@ body { background: linear-gradient(135deg, #FEF08A, var(--bg-color)); min-height
 @keyframes blinkHint { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
 .fireworks-text { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 10; }
 
-/* FIX SMOOTH KEMBANG API: Menggunakan akselerasi 3D GPU browser */
 .glow-text { 
     position: absolute; 
     top: 50%;
@@ -71,16 +94,15 @@ body { background: linear-gradient(135deg, #FEF08A, var(--bg-color)); min-height
 
 #galaxy-section { background: var(--galaxy-bg); z-index: 6; overflow: hidden; justify-content: center; }
 #galaxy-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; }
-.center-heart { position: absolute; top: 50%; left: 50%; width: 180px; height: 180px; z-index: 50; pointer-events: none; transform: translate3d(-50%, -50%, 0) scale3d(0, 0, 1); opacity: 0; transition: transform 1.5s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 1.5s; }
+.center-heart { position: absolute; top: 50%; left: 50%; width: 140px; height: 140px; z-index: 50; pointer-events: none; transform: translate3d(-50%, -50%, 0) scale3d(0, 0, 1); opacity: 0; transition: transform 1.5s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 1.5s; }
 .center-heart.show { opacity: 1; transform: translate3d(-50%, -50%, 0) scale3d(1, 1, 1); }
-.heart-pulse-wrapper { width: 100%; height: 100%; filter: drop-shadow(0 0 20px #ff3366) drop-shadow(0 0 40px #ff0055); animation: heartPulseNeon 1.5s infinite alternate; }
-@keyframes heartPulseNeon { from { transform: scale3d(1, 1, 1); filter: drop-shadow(0 0 15px #ff3366); } to { transform: scale3d(1.08, 1.08, 1); filter: drop-shadow(0 0 25px #ff3366) drop-shadow(0 0 50px #ff0055); } }
+.heart-pulse-wrapper { width: 100%; height: 100%; filter: drop-shadow(0 0 15px #ff3366); animation: heartPulseNeon 1.5s infinite alternate; }
+@keyframes heartPulseNeon { from { transform: scale3d(1, 1, 1); } to { transform: scale3d(1.08, 1.08, 1); } }
 #orbit-container { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; opacity: 0; transition: opacity 2s ease-in; }
 #orbit-container.show { opacity: 1; }
 .orbit-item { position: absolute; display: flex; flex-direction: column; align-items: center; justify-content: center; transform-origin: center; cursor: pointer; pointer-events: auto; transition: filter 0.3s; will-change: transform; }
-.orbit-item:hover { filter: drop-shadow(0 0 15px rgba(255,105,180, 1)); }
-.orbit-icon-sphere { width: 60px; height: 60px; background: rgba(20, 0, 40, 0.7); border: 2px solid #ff69b4; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 30px; box-shadow: 0 0 15px #ff69b4, inset 0 0 15px rgba(255,255,255,0.4); }
-.orbit-label { margin-top: 8px; color: #ff9ff3; font-size: 12px; font-weight: 600; text-shadow: 0 0 5px #ff69b4; white-space: nowrap; background: rgba(0,0,0,0.5); padding: 3px 10px; border-radius: 12px; border: 1px solid rgba(255, 105, 180, 0.3); }
+.orbit-icon-sphere { width: 55px; height: 55px; background: rgba(20, 0, 40, 0.7); border: 2px solid #ff69b4; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 26px; box-shadow: 0 0 12px #ff69b4, inset 0 0 10px rgba(255,255,255,0.4); }
+.orbit-label { margin-top: 6px; color: #ff9ff3; font-size: 11px; font-weight: 600; text-shadow: 0 0 4px #ff69b4; white-space: nowrap; background: rgba(0,0,0,0.6); padding: 2px 8px; border-radius: 12px; border: 1px solid rgba(255, 105, 180, 0.3); }
 
 /* MODAL GALAKSI */
 #popup-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(8px); display: flex; align-items: center; justify-content: center; z-index: 300; transition: 0.4s ease; padding: 20px; }
@@ -93,28 +115,27 @@ body { background: linear-gradient(135deg, #FEF08A, var(--bg-color)); min-height
 #popup-title { font-family: 'Dancing Script', cursive; font-size: 2.5rem; color: #ff9ff3; margin-bottom: 10px; }
 #popup-text { font-size: 1.05rem; line-height: 1.6; color: #eee; }
 
-/* REVISI UTAMA: Pembatas Kontainer Surat Rapi + Hanya Surat yang Bisa Di-scroll */
+/* REVISI FIX: HANYA AREA SURAT INTERNAL INI YANG BISA GULIR */
 .typewriter { 
-    font-size: 1.05rem; 
+    font-size: 1.02rem; 
     line-height: 1.6; 
     color: #444; 
     border-left: 3px solid #ff4081; 
-    padding: 5px 0 5px 15px; 
+    padding: 2px 0 2px 12px; 
     font-weight: 500; 
     text-align: left; 
+    width: 100%;
     
-    /* Aturan Kunci: Batasi tinggi teks agar tidak keluar dari pembungkus kontainer luar */
-    max-height: 38vh;          /* Membatasi tinggi teks maksimal 38% tinggi layar HP */
-    overflow-y: auto;          /* Mengaktifkan scroll vertikal hanya pada teks surat */
-    scrollbar-width: thin;     /* Membuat tampilan scrollbar bawaan lebih tipis */
+    /* Aturan Gulir Mandiri */
+    max-height: 38vh;          /* Membatasi tinggi teks maksimal 38% dari layar */
+    overflow-y: auto !important;/* Aktifkan scrollbar vertikal mandiri */
+    scrollbar-width: thin;     
     scrollbar-color: #ff4081 transparent;
+    -webkit-overflow-scrolling: touch;
 }
-
-/* Desain kehalusan gulir scrollbar untuk Chrome, Safari, dan Edge */
 .typewriter::-webkit-scrollbar { width: 4px; }
 .typewriter::-webkit-scrollbar-track { background: transparent; }
 .typewriter::-webkit-scrollbar-thumb { background-color: #ff4081; border-radius: 10px; }
-
 .typewriter::after { content: '|'; animation: blinkCursor 0.7s infinite; color: #ff4081; font-weight: bold; }
 @keyframes blinkCursor { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
 
@@ -123,13 +144,10 @@ body { background: linear-gradient(135deg, #FEF08A, var(--bg-color)); min-height
 .v-row { display: flex; justify-content: center; width: 100%; position: relative; }
 .top-row { gap: 15px; margin-bottom: 10px; }
 .bottom-row { gap: 8px; margin-top: -15px; }
-
 .v-polaroid { background: #fff; padding: 6px 6px 20px 6px; border-radius: 2px; box-shadow: 0 4px 15px rgba(217, 119, 6, 0.25); cursor: pointer; transition: transform 0.3s ease, z-index 0.3s ease; position: relative; border: 1px solid #eee; }
 .v-polaroid img { width: 100%; height: 100%; object-fit: cover; border-radius: 2px; }
-
-.top-row .v-polaroid { width: 120px; height: 130px; }
-.bottom-row .v-polaroid { width: 85px; height: 95px; }
-
+.top-row .v-polaroid { width: 115px; height: 125px; }
+.bottom-row .v-polaroid { width: 80px; height: 90px; }
 .p-1 { transform: rotate(-6deg); margin-top: 15px; z-index: 2; }
 .p-2 { transform: rotate(5deg); margin-top: -5px; z-index: 1; }
 .p-3 { transform: rotate(4deg); margin-top: 10px; z-index: 1; }
@@ -143,13 +161,7 @@ body { background: linear-gradient(135deg, #FEF08A, var(--bg-color)); min-height
 .memory-glass { background: rgba(254, 249, 195, 0.95); backdrop-filter: blur(10px); border: 2px solid rgba(255, 255, 255, 0.9); padding: 20px; border-radius: 20px; text-align: center; width: 100%; max-width: 350px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); position: relative; }
 #close-memory { position: absolute; top: -15px; right: -15px; color: white; background: #ff4081; width: 35px; height: 35px; border-radius: 50%; font-size: 16px; border: none; cursor: pointer; transition: 0.3s; box-shadow: 0 2px 5px rgba(0,0,0,0.2); z-index: 10; }
 #close-memory:hover { transform: scale3d(1.1, 1.1, 1); background: #e91e63; }
-
-#memory-img { 
-    display: block !important; width: auto !important; max-width: 100% !important; 
-    height: auto !important; max-height: 48vh !important; object-fit: contain !important; 
-    margin: 0 auto 15px auto !important; border-radius: 5px; border: 3px solid white; 
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-}
+#memory-img { display: block !important; width: auto !important; max-width: 100% !important; height: auto !important; max-height: 45vh !important; object-fit: contain !important; margin: 0 auto 15px auto !important; border-radius: 5px; border: 3px solid white; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
 #memory-title { font-family: 'Dancing Script', cursive; font-size: 2.2rem; color: #ff4081; margin-bottom: 5px; text-shadow: 0 1px 3px rgba(0,0,0,0.1); }
 #memory-text { color: #444; font-size: 0.95rem; line-height: 1.5; font-weight: 500; }
 
@@ -157,47 +169,33 @@ body { background: linear-gradient(135deg, #FEF08A, var(--bg-color)); min-height
 @keyframes fall { to { transform: translate3d(0, 110vh, 0) rotate(360deg); } }
 
 /* NAVIGASI BAWAH */
-#nav-controls { 
-    position: fixed; bottom: 30px; left: 0; width: 100%; padding: 0 20px; 
-    display: flex; justify-content: space-between; z-index: 1000; 
-    transition: opacity 0.5s; pointer-events: none; 
-}
+#nav-controls { position: fixed; bottom: 25px; left: 0; width: 100%; padding: 0 25px; display: flex; justify-content: space-between; z-index: 1000; transition: opacity 0.5s; pointer-events: none; }
 #nav-controls.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
-
-.nav-btn { 
-    pointer-events: auto; background: rgba(255, 255, 255, 0.15); 
-    backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.4); 
-    color: white; padding: 10px 20px; border-radius: 30px; 
-    font-size: 1rem; font-weight: 600; cursor: pointer; transition: 0.3s; 
-    box-shadow: 0 4px 15px rgba(0,0,0,0.2); display: flex; align-items: center; gap: 8px;
-    -webkit-text-stroke: 0.6px black; text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
-}
+.nav-btn { pointer-events: auto; background: rgba(255, 255, 255, 0.15); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.4); color: white; padding: 10px 20px; border-radius: 30px; font-size: 1rem; font-weight: 600; cursor: pointer; transition: 0.3s; box-shadow: 0 4px 15px rgba(0,0,0,0.2); display: flex; align-items: center; gap: 8px; -webkit-text-stroke: 0.6px black; text-shadow: 1px 1px 2px rgba(0,0,0,0.8); }
 .nav-btn:hover { background: rgba(255, 255, 255, 0.3); transform: scale3d(1.05, 1.05, 1); }
-
 #music-toggle { position: fixed; top: 20px; right: 20px; z-index: 1000; width: 50px; height: 50px; }
 
-/* MEDIA QUERIES DATA DEVICE RESPONSIF (LAPTOP & HP GALAXY) */
+/* MEDIA QUERIES DEVICE RESPONSIF (LAPTOP & HP GALAXY) */
 @media (min-width: 769px) {
-    .typewriter { max-height: 45vh; } /* Tinggi teks surat di laptop bisa sedikit lebih leluasa */
+    .typewriter { max-height: 48vh; }
     .video-memories-grid { transform: scale(1.1); }
 }
 
 @media (max-width: 768px) {
-    /* Penyesuaian Responsif bagian Galaxy Orbit menu agar pas di layar HP */
+    /* Skala menu lingkaran agar pas di layar HP */
     #orbit-container.show {
-        transform: scale(0.82);
+        transform: scale(0.72); 
         transform-origin: center center;
     }
-    .center-heart { width: 140px; height: 120px; }
+    .center-heart { width: 110px; height: 110px; }
 }
 
 @media (max-width: 500px) {
-    .glass-card { width: 92%; padding: 1.5rem 1rem; }
+    .glass-card { width: 92%; padding: 1.5rem 1rem; max-height: 82vh; }
     .orbit-icon-sphere { width: 45px; height: 45px; font-size: 22px; }
-    .center-heart { width: 110px; height: 110px; }
     .orbit-label { font-size: 10px; padding: 2px 8px; }
     
-    /* Optimalisasi Surat di layar Galaxy / HP sempit */
-    .typewriter { max-height: 34vh; font-size: 0.95rem; line-height: 1.5; }
+    /* Ukuran batas gulir teks di HP Galaxy */
+    .typewriter { max-height: 35vh; font-size: 0.95rem; line-height: 1.6; }
     .login-box h2 { font-size: 2.2rem; }
 }
