@@ -88,7 +88,7 @@ const fwSection = document.getElementById("fireworks-section"); let fwRockets = 
 const wishes = ["HAPPY BIRTHDAY\nDIAN! 🎉", "WISH YOU ALL\nTHE BEST", "SUKACITA & CINTA", "SUKSES SELALU ✨", "SEMOGA IMPIANMU\nTERCAPAI 🌟", "I LOVE YOU! 💕"];
 let wishIndex = 0, lastTapTime = 0; const rainbowColors = ['#ff4081', '#00e5ff', '#76ff03', '#ffff00', '#ea80fc', '#ff6a00', '#00ffaa'];
 
-let lastColorIndex = -1;
+let lastColorIndex = -1; // Pelacak Warna Acak
 
 const toGalaxyBtn = document.createElement("button"); 
 toGalaxyBtn.innerHTML = "Lihat Kado Utamanya 🎁"; 
@@ -100,6 +100,8 @@ toGalaxyBtn.style.transform = "translateX(-50%)";
 toGalaxyBtn.style.display = "none"; 
 toGalaxyBtn.style.zIndex = "100";
 toGalaxyBtn.style.width = "auto"; 
+toGalaxyBtn.style.padding = "10px 20px";
+toGalaxyBtn.style.fontSize = "0.95rem";
 fwSection.appendChild(toGalaxyBtn); toGalaxyBtn.addEventListener("click", (e) => { e.stopPropagation(); goToSlide(2); });
 
 fwSection.addEventListener("click", function(e) {
@@ -108,13 +110,16 @@ fwSection.addEventListener("click", function(e) {
     let newColorIndex;
     do { newColorIndex = Math.floor(Math.random() * rainbowColors.length); } while (newColorIndex === lastColorIndex);
     lastColorIndex = newColorIndex;
-    
-    fwRockets.push(new FwRocket(e.clientX, e.clientY, wishes[wishIndex % wishes.length], rainbowColors[newColorIndex])); wishIndex++; if (wishIndex >= 5) toGalaxyBtn.style.display = "block";
+    const randomColor = rainbowColors[newColorIndex];
+
+    fwRockets.push(new FwRocket(e.clientX, e.clientY, wishes[wishIndex % wishes.length], randomColor)); 
+    wishIndex++; 
+    if (wishIndex >= 5) toGalaxyBtn.style.display = "block";
 });
 for (let i=0; i<150; i++) fwStars.push({ x: Math.random()*window.innerWidth, y: Math.random()*window.innerHeight, s: Math.random()*2+1.5, alpha: Math.random(), speed: Math.random()*1.5+0.5 });
 
 class FwRocket {
-    constructor(tx, ty, text, customColor) { this.tx = tx; this.ty = ty; this.x = window.innerWidth/2; this.y = window.innerHeight; this.text = text; this.color = customColor || rainbowColors[Math.floor(Math.random() * rainbowColors.length)]; this.speed = 25; this.exploded = false; const angle = Math.atan2(this.ty - this.y, this.tx - this.x); this.vx = Math.cos(angle)*this.speed; this.vy = Math.sin(angle)*this.speed; this.lastX = this.x; this.lastY = this.y; }
+    constructor(tx, ty, text, color) { this.tx = tx; this.ty = ty; this.x = window.innerWidth/2; this.y = window.innerHeight; this.text = text; this.color = color; this.speed = 25; this.exploded = false; const angle = Math.atan2(this.ty - this.y, this.tx - this.x); this.vx = Math.cos(angle)*this.speed; this.vy = Math.sin(angle)*this.speed; this.lastX = this.x; this.lastY = this.y; }
     update() {
         this.lastX = this.x; this.lastY = this.y; this.x += this.vx; this.y += this.vy; 
         fwCtx.beginPath(); fwCtx.moveTo(this.lastX, this.lastY); fwCtx.lineTo(this.x, this.y); fwCtx.strokeStyle = this.color; fwCtx.lineWidth = 4; fwCtx.lineCap = "round"; fwCtx.globalAlpha = 1; fwCtx.stroke();
@@ -131,7 +136,7 @@ function startFireworks() {
     function animate() { fwAnimationId = requestAnimationFrame(animate); fwCtx.globalCompositeOperation = 'destination-out'; fwCtx.fillStyle = 'rgba(0, 0, 0, 0.15)'; fwCtx.fillRect(0, 0, window.innerWidth, window.innerHeight); fwCtx.globalCompositeOperation = 'source-over'; fwCtx.fillStyle = 'white'; fwStars.forEach(s => { fwCtx.globalAlpha = s.alpha; fwCtx.fillRect(s.x, s.y, s.s, s.s); s.y -= s.speed; if (s.y < 0) { s.y = window.innerHeight; s.x = Math.random() * window.innerWidth; } s.alpha += (Math.random()-0.5)*0.1; if(s.alpha < 0.1) s.alpha=0.1; if(s.alpha > 1) s.alpha=1; }); fwCtx.globalAlpha = 1; for (let i = fwRockets.length-1; i>=0; i--) { if (fwRockets[i].exploded) fwRockets.splice(i, 1); else fwRockets[i].update(); } for (let i = fwParticles.length-1; i>=0; i--) { if (fwParticles[i].alpha <= 0) fwParticles.splice(i, 1); else fwParticles[i].update(); } if (fwParticles.length > 500) fwParticles.splice(0, fwParticles.length - 500); } animate();
 }
 
-// --- 3. GALAKSI 3D ---
+// --- 3. GALAKSI 3D (KEMBALI KE ORIGINAL) ---
 const gxCanvas = document.getElementById("galaxy-canvas"); const gxCtx = gxCanvas.getContext("2d", { alpha: false }); let gxAnimationId, gxParticles = [], bgStars = [], orbitElements = [], gxTime = 0; let galaxyStartTime = 0; let introPhase = true;
 const orbitData = [ { emoji: "🧸", label: "Tempat Nyaman", title: "Tempat Nyaman", text: "Berada di dekatmu adalah tempat paling aman di seluruh galaksi." }, { emoji: "💖", label: "Dua Jiwa", title: "Dua Jiwa Satu Hati", text: "Semesta setuju menyatukan hati kita dalam satu orbit yang sama." }, { emoji: "✨", label: "Senyum Manismu", title: "Senyum Manismu", text: "Senyummu itu bagaikan rasi bintang terang, mengusir mendung." }, { emoji: "💌", label: "Pesan Rahasia", title: "Pesan Rahasia", text: "Mungkin aku tidak bilang setiap detik, tapi ingatlah I LOVE YOU." }, { emoji: "🌹", label: "Cintaku Padamu", title: "Cintaku Padamu", text: "Seperti galaksi yang terus meluas, begitu juga perasaanku ke kamu." }, { emoji: "🎀", label: "Selamanya", title: "Selamanya", text: "Terima kasih sudah lahir ke dunia. Aku ingin merayakan hari ini selamanya." } ];
 function initGalaxy() { const dpr = window.devicePixelRatio || 1; const w = window.innerWidth; const h = window.innerHeight; gxCanvas.width = w * dpr; gxCanvas.height = h * dpr; gxCanvas.style.width = w + "px"; gxCanvas.style.height = h + "px"; gxCtx.scale(dpr, dpr); gxParticles = []; bgStars = []; for(let i=0; i<300; i++) bgStars.push({ x: (Math.random()-0.5)*w*2, y: (Math.random()-0.5)*h*2, z: Math.random()*2000 }); for(let i=0; i<1500; i++) { let targetR = Math.random()*(Math.min(w, h)*0.7); gxParticles.push({ angle: Math.random()*Math.PI*20, targetRadius: targetR, radius: targetR + 1000 + Math.random()*1000, speed: Math.random()*0.003+0.001, size: Math.random()*2+0.5, color: `hsl(${Math.random()*60+260}, 100%, 70%)` }); } if(orbitElements.length === 0) createOrbitingElements(); }
@@ -163,7 +168,6 @@ function openMemory(index) {
 }
 document.getElementById("close-memory").addEventListener("click", () => { document.getElementById("memory-modal").classList.add("hidden"); });
 
-// DEKORASI JATUH (Hati & Bunga)
 function createFallingHearts() {
     setInterval(() => {
         if (currentSlide !== 3 && currentSlide !== 4) return;
@@ -176,6 +180,5 @@ function createFallingHearts() {
     }, 500);
 }
 
-// MUSIK
 const musicBtn = document.getElementById("music-toggle");
 musicBtn.addEventListener("click", () => { const bgMusic = document.getElementById("bg-music"); if (bgMusic.paused) { bgMusic.play(); musicBtn.innerHTML = '<i class="fas fa-music"></i>'; } else { bgMusic.pause(); musicBtn.innerHTML = '<i class="fas fa-volume-mute"></i>'; } });
