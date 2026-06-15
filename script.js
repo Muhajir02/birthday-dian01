@@ -1,13 +1,9 @@
-// ==========================================
-// PENGATUR SLIDE MASTER 
-// ==========================================
 const slides = ["login-section", "fireworks-section", "galaxy-section", "typewriter-section", "memories-section"];
 let currentSlide = 0;
 let fireworksStarted = false; 
 let galaxyStarted = false;
 let fallingHeartsStarted = false;
 
-// KEMBALI MENGGUNAKAN NAVIGASI BAWAH
 const navControls = document.getElementById("nav-controls");
 const btnPrev = document.getElementById("btn-prev");
 const btnNext = document.getElementById("btn-next");
@@ -18,19 +14,8 @@ function updateNav() {
     } else {
         navControls.classList.remove("hidden");
         
-        // Atur tombol Back (Hanya hilang di slide pertama)
-        if (currentSlide === 0) {
-            btnPrev.style.display = "none";
-        } else {
-            btnPrev.style.display = "flex";
-        }
-        
-        // Atur tombol Next (DIHILANGKAN PAKSA PADA SLIDE SURAT & MEMORIES)
-        if (currentSlide === 1 || currentSlide === 3 || currentSlide === 4) {
-            btnNext.style.display = "none"; 
-        } else {
-            btnNext.style.display = "flex";
-        }
+        if (currentSlide === 0) { btnPrev.style.display = "none"; } else { btnPrev.style.display = "flex"; }
+        if (currentSlide === 1 || currentSlide === 3 || currentSlide === 4) { btnNext.style.display = "none"; } else { btnNext.style.display = "flex"; }
     }
 }
 
@@ -52,16 +37,16 @@ function goToSlide(index) {
     }
 
     if (currentSlide === 1) document.getElementById("tap-hint").style.display = "block";
-    
     if (currentSlide === 1 && !fireworksStarted) { startFireworks(); fireworksStarted = true; }
     if (currentSlide === 2 && !galaxyStarted) { startGalaxyAnimation(); galaxyStarted = true; }
     if (currentSlide === 3) { startTypewriter(); } 
     
-    // Animasi jatuh-jatuh untuk tema surat & memories
     if ((currentSlide === 3 || currentSlide === 4) && !fallingHeartsStarted) { 
-        createFallingHearts(); 
-        fallingHeartsStarted = true; 
+        createFallingHearts(); fallingHeartsStarted = true; 
     }
+    
+    // Auto-scroll ke atas saat pindah halaman
+    document.getElementById(slides[currentSlide]).scrollTo(0, 0);
     
     updateNav();
 }
@@ -84,6 +69,7 @@ function checkPassword() {
     } else { document.getElementById("error-msg").classList.remove("hidden"); }
 }
 
+// FIX ANTI GESER (SPARKLES DI PERSEMPIT)
 function createLoginSparkles() {
     const loginSection = document.getElementById("login-section");
     const symbols = ["✨", "💛", "💕", "⭐"];
@@ -91,7 +77,8 @@ function createLoginSparkles() {
         if (loginSection.classList.contains("hidden")) return;
         const sp = document.createElement("div"); sp.className = "login-sparkle";
         sp.innerText = symbols[Math.floor(Math.random() * symbols.length)];
-        sp.style.left = Math.random() * 100 + "vw"; sp.style.animationDuration = (Math.random() * 4 + 5) + "s";
+        sp.style.left = Math.random() * 90 + "vw"; // Diubah jadi 90vw agar tidak memicu scroll
+        sp.style.animationDuration = (Math.random() * 4 + 5) + "s";
         loginSection.appendChild(sp); setTimeout(() => sp.remove(), 9000);
     }, 400);
 }
@@ -105,7 +92,10 @@ const wishes = ["HAPPY BIRTHDAY\nDIAN! 🎉", "WISH YOU ALL\nTHE BEST", "SUKACIT
 let wishIndex = 0, lastTapTime = 0; const rainbowColors = ['#ff4081', '#00e5ff', '#76ff03', '#ffff00', '#ea80fc', '#ff6a00', '#00ffaa'];
 
 const toGalaxyBtn = document.createElement("button"); toGalaxyBtn.innerHTML = "Lihat Kado Utamanya 🎁"; toGalaxyBtn.className = "pulse-btn"; 
-toGalaxyBtn.style.position = "absolute"; toGalaxyBtn.style.bottom = "12%"; toGalaxyBtn.style.left = "50%"; toGalaxyBtn.style.transform = "translateX(-50%)"; toGalaxyBtn.style.display = "none"; toGalaxyBtn.style.zIndex = "100";
+toGalaxyBtn.style.position = "absolute"; 
+toGalaxyBtn.style.bottom = "100px"; 
+toGalaxyBtn.style.left = "50%"; toGalaxyBtn.style.transform = "translateX(-50%)"; toGalaxyBtn.style.display = "none"; toGalaxyBtn.style.zIndex = "100";
+toGalaxyBtn.style.width = "80%"; toGalaxyBtn.style.maxWidth = "280px"; toGalaxyBtn.style.whiteSpace = "normal";
 fwSection.appendChild(toGalaxyBtn); toGalaxyBtn.addEventListener("click", (e) => { e.stopPropagation(); goToSlide(2); });
 
 fwSection.addEventListener("click", function(e) {
