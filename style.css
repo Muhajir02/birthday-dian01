@@ -69,9 +69,11 @@ body { background: linear-gradient(135deg, #FEF08A, var(--bg-color)); min-height
 .center-heart.show { opacity: 1; transform: translate(-50%, -50%) scale(1); }
 .heart-pulse-wrapper { width: 100%; height: 100%; filter: drop-shadow(0 0 20px #ff3366) drop-shadow(0 0 40px #ff0055); animation: heartPulseNeon 1.5s infinite alternate; }
 @keyframes heartPulseNeon { from { transform: scale(1); filter: drop-shadow(0 0 15px #ff3366); } to { transform: scale(1.08); filter: drop-shadow(0 0 25px #ff3366) drop-shadow(0 0 50px #ff0055); } }
+
+/* ORBIT CONTAINER KEMBALI KE ASLI (TIDAK ADA EFEK CSS SCALE YANG MERUSAK) */
 #orbit-container { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; opacity: 0; transition: opacity 2s ease-in; }
 #orbit-container.show { opacity: 1; }
-.orbit-item { position: absolute; display: flex; flex-direction: column; align-items: center; justify-content: center; transform-origin: center; cursor: pointer; pointer-events: auto; transition: filter 0.3s; will-change: transform; }
+.orbit-item { position: absolute; top: 0; left: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; transform-origin: center; cursor: pointer; pointer-events: auto; transition: filter 0.3s; will-change: transform; }
 .orbit-item:hover { filter: drop-shadow(0 0 15px rgba(255,105,180, 1)); }
 .orbit-icon-sphere { width: 60px; height: 60px; background: rgba(20, 0, 40, 0.7); border: 2px solid #ff69b4; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 30px; box-shadow: 0 0 15px #ff69b4, inset 0 0 15px rgba(255,255,255,0.4); }
 .orbit-label { margin-top: 8px; color: #ff9ff3; font-size: 12px; font-weight: 600; text-shadow: 0 0 5px #ff69b4; white-space: nowrap; background: rgba(0,0,0,0.5); padding: 3px 10px; border-radius: 12px; border: 1px solid rgba(255, 105, 180, 0.3); }
@@ -150,7 +152,7 @@ body { background: linear-gradient(135deg, #FEF08A, var(--bg-color)); min-height
 
 
 /* =========================================================
-   PERBAIKAN MINIMAL (HANYA INI YANG DITAMBAHKAN DARI KODE AWAL)
+   PERBAIKAN FINAL (AMAN 100% & RAPI DI HP)
    ========================================================= */
 
 /* 1. Posisi Ikon Kunci Hati Pas di Tengah */
@@ -171,15 +173,7 @@ body { background: linear-gradient(135deg, #FEF08A, var(--bg-color)); min-height
 .typewriter::-webkit-scrollbar { width: 4px; }
 .typewriter::-webkit-scrollbar-thumb { background-color: #ff4081; border-radius: 10px; }
 
-/* 3. Skala Galaxy dikecilkan khusus di HP */
-@media (max-width: 768px) {
-    #orbit-container {
-        transform: scale(0.75);
-        transform-origin: center center;
-    }
-}
-
-/* 4. Pengecilan Tombol (Buka Kado, Memories, dll) di layar HP */
+/* 3. Pengecilan Tombol (Buka Kado, Memories, dll) di layar HP */
 @media (max-width: 500px) {
     .glass-card { width: 92%; padding: 1.5rem 1rem; }
     .orbit-icon-sphere { width: 45px; height: 45px; font-size: 22px; }
@@ -192,12 +186,10 @@ body { background: linear-gradient(135deg, #FEF08A, var(--bg-color)); min-height
     }
 }
 
-/* 5. Jarak Aman Anti-Nabrak Ikon Musik Khusus Surat & Memories */
+/* 4. Jarak Aman Anti-Nabrak Ikon Musik Khusus Surat & Memories */
 #typewriter-section, #memories-section { padding-top: 85px !important; }
 
-/* =========================================================
-   FIX FINAL: IKON MUSIK BULAT SEMPURNA (Anti Melar)
-   ========================================================= */
+/* 5. FIX FINAL: IKON MUSIK BULAT SEMPURNA (Anti Melar & Pas) */
 #music-toggle { 
     position: fixed; 
     top: 20px; 
@@ -205,7 +197,7 @@ body { background: linear-gradient(135deg, #FEF08A, var(--bg-color)); min-height
     z-index: 1000; 
     width: 45px !important; 
     height: 45px !important; 
-    min-width: 45px !important; /* Kunci agar tidak ikut melar oleh class pulse-btn */
+    min-width: 45px !important; 
     max-width: 45px !important;
     border-radius: 50% !important; 
     padding: 0 !important; 
