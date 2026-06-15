@@ -49,7 +49,7 @@ body { background: linear-gradient(135deg, #FEF08A, var(--bg-color)); min-height
     max-height: 85vh; 
     display: flex;
     flex-direction: column;
-    align-items: center; /* Memaksa semua anak elemen tegak lurus di tengah */
+    align-items: center; 
     justify-content: center;
     overflow: hidden !important;
 }
@@ -57,7 +57,7 @@ body { background: linear-gradient(135deg, #FEF08A, var(--bg-color)); min-height
 .login-box { display: flex; flex-direction: column; align-items: center; width: 100%; animation: floatingCard 3s ease-in-out infinite; transform: translate3d(0, 0, 0); will-change: transform; }
 @keyframes floatingCard { 0%, 100% { transform: translate3d(0, 0, 0); } 50% { transform: translate3d(0, -10px, 0); } }
 
-/* FIX POSISI: Kunci hati dipaksa pas di tengah blok atas */
+/* FIKSASI POSISI TENGAH KUNCI HATI */
 .kunci-hati-icon { 
     display: flex !important; 
     align-items: center; 
@@ -108,10 +108,10 @@ body { background: linear-gradient(135deg, #FEF08A, var(--bg-color)); min-height
 .heart-pulse-wrapper { width: 100%; height: 100%; filter: drop-shadow(0 0 15px #ff3366); animation: heartPulseNeon 1.5s infinite alternate; }
 @keyframes heartPulseNeon { from { transform: scale3d(1, 1, 1); } to { transform: scale3d(1.08, 1.08, 1); } }
 
-/* FIX GALAXY KOSONG: Kembalikan container utama ke penanganan sistem koordinat asal */
+/* FIX KUNCI SEBELUMNYA: Tambahkan kembali position absolute agar tulisan planet kembali memutar di tengah */
 #orbit-container { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; opacity: 0; transition: opacity 2s ease-in; }
 #orbit-container.show { opacity: 1; }
-.orbit-item { position: absolute; display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; pointer-events: auto; transition: filter 0.3s; will-change: transform; }
+.orbit-item { position: absolute !important; display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; pointer-events: auto; transition: filter 0.3s; will-change: transform; }
 .orbit-icon-sphere { width: 55px; height: 55px; background: rgba(20, 0, 40, 0.7); border: 2px solid #ff69b4; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 26px; box-shadow: 0 0 12px #ff69b4, inset 0 0 10px rgba(255,255,255,0.4); }
 .orbit-label { margin-top: 6px; color: #ff9ff3; font-size: 11px; font-weight: 600; text-shadow: 0 0 4px #ff69b4; white-space: nowrap; background: rgba(0,0,0,0.6); padding: 2px 8px; border-radius: 12px; border: 1px solid rgba(255, 105, 180, 0.3); }
 
@@ -199,6 +199,12 @@ body { background: linear-gradient(135deg, #FEF08A, var(--bg-color)); min-height
 }
 
 @media (max-width: 500px) {
+    /* Batasi tombol login utama dan tombol bawaan agar tidak kebesaran */
+    .pulse-btn {
+        width: auto !important;
+        min-width: 200px;
+        max-width: 280px;
+    }
     .glass-card { width: 92%; padding: 1.5rem 1rem; max-height: 82vh; }
     .orbit-icon-sphere { width: 45px; height: 45px; font-size: 22px; }
     .orbit-label { font-size: 10px; padding: 2px 8px; }
