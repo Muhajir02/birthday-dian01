@@ -14,13 +14,13 @@ body { background: linear-gradient(135deg, #FEF08A, var(--bg-color)); min-height
 #door-left { left: 0; } #door-right { right: 0; }
 .door.open-left { transform: translateX(-100%); } .door.open-right { transform: translateX(100%); }
 
-/* SMOOTH SCROLL UNTUK HP */
+/* SMOOTH SCROLL UNTUK HP & JARAK AMAN DARI MUSIK */
 .screen { 
     position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
     display: flex; flex-direction: column; align-items: center; justify-content: flex-start; 
     transition: opacity 1s, visibility 1s; z-index: 10; 
     overflow-y: auto; overflow-x: hidden !important; 
-    padding: 20px 0 100px 0; 
+    padding: 85px 0 100px 0 !important; /* REVISI: Jarak aman 85px di atas agar tidak nabrak tombol musik */
     -webkit-overflow-scrolling: touch; 
 }
 .screen.hidden { opacity: 0; visibility: hidden; pointer-events: none; z-index: -1; }
@@ -77,7 +77,7 @@ body { background: linear-gradient(135deg, #FEF08A, var(--bg-color)); min-height
 .orbit-label { margin-top: 8px; color: #ff9ff3; font-size: 12px; font-weight: 600; text-shadow: 0 0 5px #ff69b4; white-space: nowrap; background: rgba(0,0,0,0.5); padding: 3px 10px; border-radius: 12px; border: 1px solid rgba(255, 105, 180, 0.3); }
 
 /* MODAL GALAKSI */
-#popup-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(8px); display: flex; align-items: center; justify-content: center; z-index: 300; transition: 0.4s ease; padding: 20px; }
+#popup-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(8px); display: flex; align-items: center; justify-content: center; z-index: 300; transition: 0.4s ease; padding: 85px 20px 20px 20px !important; /* REVISI: Jarak aman */ }
 #popup-modal.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
 .popup-glass { background: linear-gradient(135deg, rgba(255, 20, 147, 0.2), rgba(75, 0, 130, 0.4)); border: 1px solid rgba(255, 255, 255, 0.3); box-shadow: 0 0 40px rgba(255, 20, 147, 0.4); border-radius: 20px; padding: 30px 20px; width: 100%; max-width: 400px; text-align: center; color: white; transform: scale(1); transition: 0.4s; position: relative; }
 #popup-modal.hidden .popup-glass { transform: scale(0.5); }
@@ -112,7 +112,7 @@ body { background: linear-gradient(135deg, #FEF08A, var(--bg-color)); min-height
 .v-polaroid:hover { transform: scale(1.15) rotate(0deg) !important; z-index: 20 !important; box-shadow: 0 10px 25px rgba(217, 119, 6, 0.4); }
 
 /* MODAL FOTO MEMORIES */
-#memory-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(5px); display: flex; align-items: center; justify-content: center; z-index: 10000; transition: 0.3s; padding: 20px; }
+#memory-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(5px); display: flex; align-items: center; justify-content: center; z-index: 10000; transition: 0.3s; padding: 85px 20px 20px 20px !important; /* REVISI: Jarak aman */ }
 #memory-modal.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
 .memory-glass { background: rgba(254, 249, 195, 0.95); backdrop-filter: blur(10px); border: 2px solid rgba(255, 255, 255, 0.9); padding: 20px; border-radius: 20px; text-align: center; width: 100%; max-width: 350px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); position: relative; }
 #close-memory { position: absolute; top: -15px; right: -15px; color: white; background: #ff4081; width: 35px; height: 35px; border-radius: 50%; font-size: 16px; border: none; cursor: pointer; transition: 0.3s; box-shadow: 0 2px 5px rgba(0,0,0,0.2); z-index: 10; }
@@ -148,42 +148,55 @@ body { background: linear-gradient(135deg, #FEF08A, var(--bg-color)); min-height
 }
 .nav-btn:hover { background: rgba(255, 255, 255, 0.3); transform: scale(1.05); }
 
-#music-toggle { position: fixed; top: 20px; right: 20px; z-index: 1000; width: 50px; height: 50px; }
 
+/* REVISI IKON MUSIK BULAT SEMPURNA */
+#music-toggle { 
+    position: fixed; top: 20px; right: 20px; z-index: 1000; 
+    width: 48px !important; height: 48px !important; 
+    border-radius: 50% !important; /* Membuat sudut bulat 100% */
+    padding: 0 !important; /* Menghilangkan padding agar lingkarannya pas */
+    display: flex; align-items: center; justify-content: center; /* Ikon berada tepat di tengah */
+}
 
-/* =========================================================================
-   PERBAIKAN MINIMAL: CSS DI BAWAH INI UNTUK MERAPIKAN TAMPILAN DI HP 
-   ========================================================================= */
+/* =========================================================
+   PERBAIKAN MINIMAL (HANYA INI YANG DITAMBAHKAN DARI KODE AWAL)
+   ========================================================= */
 
-/* 1. Paksa Ikon Kunci Hati Lurus ke Tengah */
-.login-box { display: flex; flex-direction: column; align-items: center; }
-.kunci-hati-icon { margin: 0 auto 15px auto !important; }
+/* 1. Posisi Ikon Kunci Hati Pas di Tengah */
+.login-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.kunci-hati-icon {
+    margin: 0 auto 15px auto !important;
+}
 
-/* 2. Surat Bisa Di-scroll Tanpa Menggeser Layar Luar */
+/* 2. Surat dikasih batas biar bisa di-scroll tanpa geser layar */
 .typewriter {
     max-height: 40vh;
     overflow-y: auto;
-    scrollbar-width: thin;
-    padding-right: 10px;
 }
 .typewriter::-webkit-scrollbar { width: 4px; }
 .typewriter::-webkit-scrollbar-thumb { background-color: #ff4081; border-radius: 10px; }
 
-/* 3. Penyesuaian Ukuran Tombol & Ikon Galaksi Untuk Layar HP (Responsive) */
+/* 3. Skala Galaxy dikecilkan khusus di HP */
+@media (max-width: 768px) {
+    #orbit-container {
+        transform: scale(0.75);
+        transform-origin: center center;
+    }
+}
+
+/* 4. Pengecilan Tombol (Buka Kado, Memories, dll) di layar HP */
 @media (max-width: 500px) {
-    /* Kecilkan kartu pembungkus */
     .glass-card { width: 92%; padding: 1.5rem 1rem; }
+    .orbit-icon-sphere { width: 45px; height: 45px; font-size: 22px; }
+    .center-heart { width: 120px; height: 120px; }
     
-    /* Kecilkan ikon galaksi agar pas di layar tanpa perlu teknik scale CSS */
-    .orbit-icon-sphere { width: 42px !important; height: 42px !important; font-size: 20px !important; }
-    .orbit-label { font-size: 10px !important; padding: 2px 6px !important; }
-    .center-heart { width: 120px !important; height: 120px !important; }
-    
-    /* Pengecilan semua tombol utama agar tidak kebesaran */
     .pulse-btn {
-        padding: 10px 20px !important;
-        font-size: 0.95rem !important;
+        padding: 8px 18px !important;
+        font-size: 0.9rem !important;
         width: auto !important;
-        min-width: 150px;
     }
 }
