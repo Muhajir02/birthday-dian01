@@ -118,7 +118,12 @@ body { background: linear-gradient(135deg, #FEF08A, var(--bg-color)); min-height
 #close-memory { position: absolute; top: -15px; right: -15px; color: white; background: #ff4081; width: 35px; height: 35px; border-radius: 50%; font-size: 16px; border: none; cursor: pointer; transition: 0.3s; box-shadow: 0 2px 5px rgba(0,0,0,0.2); z-index: 10; }
 #close-memory:hover { transform: scale(1.1); background: #e91e63; }
 
-#memory-img { display: block !important; width: auto !important; max-width: 100% !important; height: auto !important; max-height: 50vh !important; object-fit: contain !important; margin: 0 auto 15px auto !important; border-radius: 5px; border: 3px solid white; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+#memory-img { 
+    display: block !important; width: auto !important; max-width: 100% !important; 
+    height: auto !important; max-height: 50vh !important; object-fit: contain !important; 
+    margin: 0 auto 15px auto !important; border-radius: 5px; border: 3px solid white; 
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
 #memory-title { font-family: 'Dancing Script', cursive; font-size: 2.2rem; color: #ff4081; margin-bottom: 5px; text-shadow: 0 1px 3px rgba(0,0,0,0.1); }
 #memory-text { color: #444; font-size: 0.95rem; line-height: 1.5; font-weight: 500; }
 
@@ -126,35 +131,86 @@ body { background: linear-gradient(135deg, #FEF08A, var(--bg-color)); min-height
 @keyframes fall { to { transform: translateY(110vh) rotate(360deg); } }
 
 /* NAVIGASI BAWAH */
-#nav-controls { position: fixed; bottom: 30px; left: 0; width: 100%; padding: 0 20px; display: flex; justify-content: space-between; z-index: 1000; transition: opacity 0.5s; pointer-events: none; }
+#nav-controls { 
+    position: fixed; bottom: 30px; left: 0; width: 100%; padding: 0 20px; 
+    display: flex; justify-content: space-between; z-index: 1000; 
+    transition: opacity 0.5s; pointer-events: none; 
+}
 #nav-controls.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
-.nav-btn { pointer-events: auto; background: rgba(255, 255, 255, 0.15); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.4); color: white; padding: 10px 20px; border-radius: 30px; font-size: 1rem; font-weight: 600; cursor: pointer; transition: 0.3s; box-shadow: 0 4px 15px rgba(0,0,0,0.2); display: flex; align-items: center; gap: 8px; -webkit-text-stroke: 0.6px black; text-shadow: 1px 1px 2px rgba(0,0,0,0.8); }
+
+.nav-btn { 
+    pointer-events: auto; background: rgba(255, 255, 255, 0.15); 
+    backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.4); 
+    color: white; padding: 10px 20px; border-radius: 30px; 
+    font-size: 1rem; font-weight: 600; cursor: pointer; transition: 0.3s; 
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2); display: flex; align-items: center; gap: 8px;
+    -webkit-text-stroke: 0.6px black; text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
+}
 .nav-btn:hover { background: rgba(255, 255, 255, 0.3); transform: scale(1.05); }
 
 
 /* =========================================================
-   PERBAIKAN FINAL (AMAN 100% & RAPI DI HP)
+   PERBAIKAN MINIMAL (HANYA INI YANG DITAMBAHKAN DARI KODE AWAL)
    ========================================================= */
 
 /* 1. Posisi Ikon Kunci Hati Pas di Tengah */
-.login-box { display: flex; flex-direction: column; align-items: center; }
-.kunci-hati-icon { margin: 0 auto 15px auto !important; }
+.login-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.kunci-hati-icon {
+    margin: 0 auto 15px auto !important;
+}
 
 /* 2. Surat dikasih batas biar bisa di-scroll tanpa geser layar */
-.typewriter { max-height: 40vh; overflow-y: auto; padding-right: 5px; }
+.typewriter {
+    max-height: 40vh;
+    overflow-y: auto;
+}
 .typewriter::-webkit-scrollbar { width: 4px; }
 .typewriter::-webkit-scrollbar-thumb { background-color: #ff4081; border-radius: 10px; }
 
-/* 3. Ikon Musik Bulat Sempurna */
-#music-toggle { position: fixed; top: 20px; right: 20px; z-index: 1000; width: 50px; height: 50px; border-radius: 50% !important; padding: 0 !important; display: flex; align-items: center; justify-content: center; }
+/* 3. Skala Galaxy dikecilkan khusus di HP */
+@media (max-width: 768px) {
+    #orbit-container {
+        transform: scale(0.75);
+        transform-origin: center center;
+    }
+}
 
-/* 4. Jarak Aman Anti-Nabrak Ikon Musik Khusus Surat & Memories */
-#typewriter-section, #memories-section { padding-top: 85px !important; }
-
-/* 5. Pengecilan Tombol di Layar HP */
+/* 4. Pengecilan Tombol (Buka Kado, Memories, dll) di layar HP */
 @media (max-width: 500px) {
     .glass-card { width: 92%; padding: 1.5rem 1rem; }
     .orbit-icon-sphere { width: 45px; height: 45px; font-size: 22px; }
     .center-heart { width: 120px; height: 120px; }
-    .pulse-btn { padding: 8px 18px !important; font-size: 0.9rem !important; width: auto !important; min-width: 150px; }
+    
+    .pulse-btn {
+        padding: 8px 18px !important;
+        font-size: 0.9rem !important;
+        width: auto !important;
+    }
+}
+
+/* 5. Jarak Aman Anti-Nabrak Ikon Musik Khusus Surat & Memories */
+#typewriter-section, #memories-section { padding-top: 85px !important; }
+
+/* =========================================================
+   FIX FINAL: IKON MUSIK BULAT SEMPURNA (Anti Melar)
+   ========================================================= */
+#music-toggle { 
+    position: fixed; 
+    top: 20px; 
+    right: 20px; 
+    z-index: 1000; 
+    width: 45px !important; 
+    height: 45px !important; 
+    min-width: 45px !important; /* Kunci agar tidak ikut melar oleh class pulse-btn */
+    max-width: 45px !important;
+    border-radius: 50% !important; 
+    padding: 0 !important; 
+    display: flex !important; 
+    align-items: center !important; 
+    justify-content: center !important; 
+    font-size: 1.1rem !important;
 }
