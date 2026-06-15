@@ -12,7 +12,7 @@ body { background: linear-gradient(135deg, #FEF08A, var(--bg-color)); min-height
 .door::before, #door-left::after, #door-right::after { background: linear-gradient(45deg, var(--accent-red) 35%, #fca5a5 50%, var(--accent-red) 65%) !important; background-size: 200% 200% !important; animation: ribbonShine 3s infinite linear !important; }
 @keyframes ribbonShine { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
 #door-left { left: 0; } #door-right { right: 0; }
-.door.open-left { transform: translateX(-100%); } .door.open-right { transform: translateX(100%); }
+.door.open-left { transform: translate3d(-100%, 0, 0); } .door.open-right { transform: translate3d(100%, 0, 0); }
 
 /* SMOOTH SCROLL UNTUK HP */
 .screen { 
@@ -29,24 +29,24 @@ body { background: linear-gradient(135deg, #FEF08A, var(--bg-color)); min-height
 .glass-card { position: relative; z-index: 10; background: rgba(254, 249, 195, 0.95); backdrop-filter: blur(10px); border: 2px solid rgba(255, 255, 255, 0.9); border-radius: 20px; padding: 2.5rem 2rem; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08); text-align: center; margin: auto; width: 90%; max-width: 500px; }
 
 /* FIX PATAH-PATAH: Hapus animasi box-shadow, tambah translateZ untuk memori HP */
-.login-box { animation: floatingCard 3s ease-in-out infinite; transform: translateZ(0); will-change: transform; }
-@keyframes floatingCard { 0%, 100% { transform: translateY(0) translateZ(0); } 50% { transform: translateY(-10px) translateZ(0); } }
+.login-box { animation: floatingCard 3s ease-in-out infinite; transform: translate3d(0, 0, 0); will-change: transform; }
+@keyframes floatingCard { 0%, 100% { transform: translate3d(0, 0, 0); } 50% { transform: translate3d(0, -10px, 0); } }
 
 .kunci-hati-icon { display: inline-flex; align-items: center; justify-content: center; width: 80px; height: 80px; margin-bottom: 15px; animation: pulseHeart 1.5s infinite; position: relative; will-change: transform; }
 .love-bg { font-size: 80px; color: var(--accent-red); text-shadow: 0 0 15px rgba(229, 57, 53, 0.4); }
-.key-fg { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(-45deg); font-size: 32px; color: #FFFDE7; z-index: 2; margin-top: -3px; margin-left: 2px; }
-@keyframes pulseHeart { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.12); } }
+.key-fg { position: absolute; top: 50%; left: 50%; transform: translate3d(-50%, -50%, 0) rotate(-45deg); font-size: 32px; color: #FFFDE7; z-index: 2; margin-top: -3px; margin-left: 2px; }
+@keyframes pulseHeart { 0%, 100% { transform: scale3d(1, 1, 1); } 50% { transform: scale3d(1.12, 1.12, 1); } }
 .login-box h2 { font-family: 'Dancing Script', cursive; font-size: 2.8rem; color: var(--dark-orange); margin-bottom: 5px; }
 .login-box p { color: #666; font-size: 0.95rem; margin-bottom: 25px; }
 .login-box input { width: 100%; padding: 14px; margin: 0 0 20px 0; border: 2px solid rgba(251, 191, 36, 0.5); border-radius: 10px; text-align: center; font-size: 1rem; outline: none; }
-.pulse-btn { background: var(--dark-orange); color: white; border: none; padding: 12px 24px; border-radius: 30px; font-size: 1.1rem; font-weight: 600; cursor: pointer; transition: 0.3s; box-shadow: 0 0 15px rgba(251, 191, 36, 0.5); transform: translateZ(0); }
-.pulse-btn:hover { background: #B45309; transform: scale(1.05); }
+.pulse-btn { background: var(--dark-orange); color: white; border: none; padding: 12px 24px; border-radius: 30px; font-size: 1.1rem; font-weight: 600; cursor: pointer; transition: 0.3s; box-shadow: 0 0 15px rgba(251, 191, 36, 0.5); transform: translate3d(0, 0, 0); }
+.pulse-btn:hover { background: #B45309; transform: scale3d(1.05, 1.05, 1); }
 #error-msg { display: none; color: #ef4444; font-size: 0.9rem; margin-top: 10px; font-weight: bold; }
 #error-msg:not(.hidden) { display: block; animation: shakeError 0.5s; }
-@keyframes shakeError { 0%, 100% { transform: translateX(0); } 20%, 60% { transform: translateX(-5px); } 40%, 80% { transform: translateX(5px); } }
+@keyframes shakeError { 0%, 100% { transform: translate3d(0, 0, 0); } 20%, 60% { transform: translate3d(-5px, 0, 0); } 40%, 80% { transform: translate3d(5px, 0, 0); } }
 
 .login-sparkle { position: absolute; bottom: -20px; animation: floatUp linear infinite; z-index: 1; opacity: 0.7; pointer-events: none; will-change: transform, opacity; }
-@keyframes floatUp { 0% { transform: translateY(0) rotate(0deg); opacity: 0; } 10% { opacity: 0.8; } 100% { transform: translateY(-110vh) rotate(360deg); opacity: 0; } }
+@keyframes floatUp { 0% { transform: translate3d(0, 0, 0) rotate(0deg); opacity: 0; } 10% { opacity: 0.8; } 100% { transform: translate3d(0, -110vh, 0) rotate(360deg); opacity: 0; } }
 
 #fireworks-section { background: radial-gradient(circle at bottom, #1b2735 0%, #090a0f 100%); z-index: 5; }
 #fireworks-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
@@ -54,22 +54,27 @@ body { background: linear-gradient(135deg, #FEF08A, var(--bg-color)); min-height
 @keyframes blinkHint { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
 .fireworks-text { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 10; }
 
+/* FIX SMOOTH KEMBANG API: Menggunakan akselerasi 3D GPU browser */
 .glow-text { 
-    position: absolute; transform: translate(-50%, -50%); 
+    position: absolute; 
+    top: 50%;
+    left: 50%;
+    transform: translate3d(-50%, -50%, 0); 
     font-family: 'Luckiest Guy', cursive; color: #ffffff; 
-    font-size: clamp(1.8rem, 8vw, 3.5rem); 
+    font-size: clamp(1.6rem, 7vw, 3.5rem); 
     text-align: center; white-space: normal; 
     width: 90%; line-height: 1.2;
-    animation: burstText 2.5s forwards; 
+    will-change: transform, opacity;
+    animation: burstText 2.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; 
 }
-@keyframes burstText { 0% { transform: translate(-50%, -50%) scale(0); opacity: 0; } 15% { transform: translate(-50%, -50%) scale(1.2); opacity: 1; } 80% { transform: translate(-50%, -50%) scale(1); opacity: 1; } 100% { transform: translate(-50%, -50%) scale(1.5); opacity: 0; } }
+@keyframes burstText { 0% { transform: translate3d(-50%, -50%, 0) scale3d(0, 0, 1); opacity: 0; } 15% { transform: translate3d(-50%, -50%, 0) scale3d(1.1, 1.1, 1); opacity: 1; } 80% { transform: translate3d(-50%, -50%, 0) scale3d(1, 1, 1); opacity: 1; } 100% { transform: translate3d(-50%, -50%, 0) scale3d(1.3, 1.3, 1); opacity: 0; } }
 
 #galaxy-section { background: var(--galaxy-bg); z-index: 6; overflow: hidden; justify-content: center; }
 #galaxy-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; }
-.center-heart { position: absolute; top: 50%; left: 50%; width: 180px; height: 180px; z-index: 50; pointer-events: none; transform: translate(-50%, -50%) scale(0); opacity: 0; transition: transform 1.5s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 1.5s; }
-.center-heart.show { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+.center-heart { position: absolute; top: 50%; left: 50%; width: 180px; height: 180px; z-index: 50; pointer-events: none; transform: translate3d(-50%, -50%, 0) scale3d(0, 0, 1); opacity: 0; transition: transform 1.5s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 1.5s; }
+.center-heart.show { opacity: 1; transform: translate3d(-50%, -50%, 0) scale3d(1, 1, 1); }
 .heart-pulse-wrapper { width: 100%; height: 100%; filter: drop-shadow(0 0 20px #ff3366) drop-shadow(0 0 40px #ff0055); animation: heartPulseNeon 1.5s infinite alternate; }
-@keyframes heartPulseNeon { from { transform: scale(1); filter: drop-shadow(0 0 15px #ff3366); } to { transform: scale(1.08); filter: drop-shadow(0 0 25px #ff3366) drop-shadow(0 0 50px #ff0055); } }
+@keyframes heartPulseNeon { from { transform: scale3d(1, 1, 1); filter: drop-shadow(0 0 15px #ff3366); } to { transform: scale3d(1.08, 1.08, 1); filter: drop-shadow(0 0 25px #ff3366) drop-shadow(0 0 50px #ff0055); } }
 #orbit-container { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; opacity: 0; transition: opacity 2s ease-in; }
 #orbit-container.show { opacity: 1; }
 .orbit-item { position: absolute; display: flex; flex-direction: column; align-items: center; justify-content: center; transform-origin: center; cursor: pointer; pointer-events: auto; transition: filter 0.3s; will-change: transform; }
@@ -80,16 +85,36 @@ body { background: linear-gradient(135deg, #FEF08A, var(--bg-color)); min-height
 /* MODAL GALAKSI */
 #popup-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(8px); display: flex; align-items: center; justify-content: center; z-index: 300; transition: 0.4s ease; padding: 20px; }
 #popup-modal.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
-.popup-glass { background: linear-gradient(135deg, rgba(255, 20, 147, 0.2), rgba(75, 0, 130, 0.4)); border: 1px solid rgba(255, 255, 255, 0.3); box-shadow: 0 0 40px rgba(255, 20, 147, 0.4); border-radius: 20px; padding: 30px 20px; width: 100%; max-width: 400px; text-align: center; color: white; transform: scale(1); transition: 0.4s; position: relative; }
-#popup-modal.hidden .popup-glass { transform: scale(0.5); }
+.popup-glass { background: linear-gradient(135deg, rgba(255, 20, 147, 0.2), rgba(75, 0, 130, 0.4)); border: 1px solid rgba(255, 255, 255, 0.3); box-shadow: 0 0 40px rgba(255, 20, 147, 0.4); border-radius: 20px; padding: 30px 20px; width: 100%; max-width: 400px; text-align: center; color: white; transform: scale3d(1, 1, 1); transition: 0.4s; position: relative; }
+#popup-modal.hidden .popup-glass { transform: scale3d(0.5, 0.5, 1); }
 #close-popup { position: absolute; top: 15px; right: 15px; background: rgba(255,255,255,0.2); border: none; color: white; width: 35px; height: 35px; border-radius: 50%; cursor: pointer; transition: 0.3s; }
 #close-popup:hover { background: #ff4757; transform: rotate(90deg); }
 #popup-emoji { font-size: 60px; margin-bottom: 10px; animation: pulseHeart 2s infinite; }
 #popup-title { font-family: 'Dancing Script', cursive; font-size: 2.5rem; color: #ff9ff3; margin-bottom: 10px; }
 #popup-text { font-size: 1.05rem; line-height: 1.6; color: #eee; }
 
-/* SURAT TERKETIK */
-.typewriter { font-size: 1.05rem; line-height: 1.6; color: #444; min-height: 180px; border-left: 3px solid #ff4081; padding-left: 15px; font-weight: 500; text-align: left; }
+/* REVISI UTAMA: Pembatas Kontainer Surat Rapi + Hanya Surat yang Bisa Di-scroll */
+.typewriter { 
+    font-size: 1.05rem; 
+    line-height: 1.6; 
+    color: #444; 
+    border-left: 3px solid #ff4081; 
+    padding: 5px 0 5px 15px; 
+    font-weight: 500; 
+    text-align: left; 
+    
+    /* Aturan Kunci: Batasi tinggi teks agar tidak keluar dari pembungkus kontainer luar */
+    max-height: 38vh;          /* Membatasi tinggi teks maksimal 38% tinggi layar HP */
+    overflow-y: auto;          /* Mengaktifkan scroll vertikal hanya pada teks surat */
+    scrollbar-width: thin;     /* Membuat tampilan scrollbar bawaan lebih tipis */
+    scrollbar-color: #ff4081 transparent;
+}
+
+/* Desain kehalusan gulir scrollbar untuk Chrome, Safari, dan Edge */
+.typewriter::-webkit-scrollbar { width: 4px; }
+.typewriter::-webkit-scrollbar-track { background: transparent; }
+.typewriter::-webkit-scrollbar-thumb { background-color: #ff4081; border-radius: 10px; }
+
 .typewriter::after { content: '|'; animation: blinkCursor 0.7s infinite; color: #ff4081; font-weight: bold; }
 @keyframes blinkCursor { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
 
@@ -110,18 +135,18 @@ body { background: linear-gradient(135deg, #FEF08A, var(--bg-color)); min-height
 .p-3 { transform: rotate(4deg); margin-top: 10px; z-index: 1; }
 .p-4 { transform: rotate(-2deg); margin-top: -10px; z-index: 3; } 
 .p-5 { transform: rotate(-5deg); margin-top: 15px; z-index: 2; }
-.v-polaroid:hover { transform: scale(1.15) rotate(0deg) !important; z-index: 20 !important; box-shadow: 0 10px 25px rgba(217, 119, 6, 0.4); }
+.v-polaroid:hover { transform: scale3d(1.15, 1.15, 1) rotate(0deg) !important; z-index: 20 !important; box-shadow: 0 10px 25px rgba(217, 119, 6, 0.4); }
 
 /* MODAL FOTO MEMORIES */
 #memory-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(5px); display: flex; align-items: center; justify-content: center; z-index: 10000; transition: 0.3s; padding: 20px; }
 #memory-modal.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
 .memory-glass { background: rgba(254, 249, 195, 0.95); backdrop-filter: blur(10px); border: 2px solid rgba(255, 255, 255, 0.9); padding: 20px; border-radius: 20px; text-align: center; width: 100%; max-width: 350px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); position: relative; }
 #close-memory { position: absolute; top: -15px; right: -15px; color: white; background: #ff4081; width: 35px; height: 35px; border-radius: 50%; font-size: 16px; border: none; cursor: pointer; transition: 0.3s; box-shadow: 0 2px 5px rgba(0,0,0,0.2); z-index: 10; }
-#close-memory:hover { transform: scale(1.1); background: #e91e63; }
+#close-memory:hover { transform: scale3d(1.1, 1.1, 1); background: #e91e63; }
 
 #memory-img { 
     display: block !important; width: auto !important; max-width: 100% !important; 
-    height: auto !important; max-height: 50vh !important; object-fit: contain !important; 
+    height: auto !important; max-height: 48vh !important; object-fit: contain !important; 
     margin: 0 auto 15px auto !important; border-radius: 5px; border: 3px solid white; 
     box-shadow: 0 5px 15px rgba(0,0,0,0.1);
 }
@@ -129,7 +154,7 @@ body { background: linear-gradient(135deg, #FEF08A, var(--bg-color)); min-height
 #memory-text { color: #444; font-size: 0.95rem; line-height: 1.5; font-weight: 500; }
 
 .heart { position: fixed; top: -10vh; font-size: 1.5rem; animation: fall linear infinite; z-index: 5; pointer-events: none; opacity: 0.7;}
-@keyframes fall { to { transform: translateY(110vh) rotate(360deg); } }
+@keyframes fall { to { transform: translate3d(0, 110vh, 0) rotate(360deg); } }
 
 /* NAVIGASI BAWAH */
 #nav-controls { 
@@ -147,13 +172,32 @@ body { background: linear-gradient(135deg, #FEF08A, var(--bg-color)); min-height
     box-shadow: 0 4px 15px rgba(0,0,0,0.2); display: flex; align-items: center; gap: 8px;
     -webkit-text-stroke: 0.6px black; text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
 }
-.nav-btn:hover { background: rgba(255, 255, 255, 0.3); transform: scale(1.05); }
+.nav-btn:hover { background: rgba(255, 255, 255, 0.3); transform: scale3d(1.05, 1.05, 1); }
 
 #music-toggle { position: fixed; top: 20px; right: 20px; z-index: 1000; width: 50px; height: 50px; }
 
-/* RESPONSIVE UNTUK HP SEMPIT */
+/* MEDIA QUERIES DATA DEVICE RESPONSIF (LAPTOP & HP GALAXY) */
+@media (min-width: 769px) {
+    .typewriter { max-height: 45vh; } /* Tinggi teks surat di laptop bisa sedikit lebih leluasa */
+    .video-memories-grid { transform: scale(1.1); }
+}
+
+@media (max-width: 768px) {
+    /* Penyesuaian Responsif bagian Galaxy Orbit menu agar pas di layar HP */
+    #orbit-container.show {
+        transform: scale(0.82);
+        transform-origin: center center;
+    }
+    .center-heart { width: 140px; height: 120px; }
+}
+
 @media (max-width: 500px) {
     .glass-card { width: 92%; padding: 1.5rem 1rem; }
     .orbit-icon-sphere { width: 45px; height: 45px; font-size: 22px; }
-    .center-heart { width: 120px; height: 120px; }
+    .center-heart { width: 110px; height: 110px; }
+    .orbit-label { font-size: 10px; padding: 2px 8px; }
+    
+    /* Optimalisasi Surat di layar Galaxy / HP sempit */
+    .typewriter { max-height: 34vh; font-size: 0.95rem; line-height: 1.5; }
+    .login-box h2 { font-size: 2.2rem; }
 }
