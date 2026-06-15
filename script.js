@@ -45,8 +45,11 @@ function goToSlide(index) {
         createFallingHearts(); fallingHeartsStarted = true; 
     }
     
-    // Auto-scroll ke atas saat pindah halaman
-    document.getElementById(slides[currentSlide]).scrollTo(0, 0);
+    // REVISI FIX: Hapus pemicu scrollTo layar luar, alihkan ke auto-scroll internal teks surat jika di slide 3
+    if (currentSlide === 3) {
+        const textContainer = document.getElementById("typewriter-text");
+        if (textContainer) textContainer.scrollTop = 0;
+    }
     
     updateNav();
 }
@@ -69,7 +72,6 @@ function checkPassword() {
     } else { document.getElementById("error-msg").classList.remove("hidden"); }
 }
 
-// FIX ANTI GESER (SPARKLES DI PERSEMPIT)
 function createLoginSparkles() {
     const loginSection = document.getElementById("login-section");
     const symbols = ["✨", "💛", "💕", "⭐"];
@@ -77,13 +79,12 @@ function createLoginSparkles() {
         if (loginSection.classList.contains("hidden")) return;
         const sp = document.createElement("div"); sp.className = "login-sparkle";
         sp.innerText = symbols[Math.floor(Math.random() * symbols.length)];
-        sp.style.left = Math.random() * 90 + "vw"; // Diubah jadi 90vw agar tidak memicu scroll
+        sp.style.left = Math.random() * 90 + "vw"; 
         sp.style.animationDuration = (Math.random() * 4 + 5) + "s";
         loginSection.appendChild(sp); setTimeout(() => sp.remove(), 9000);
     }, 400);
 }
 createLoginSparkles();
-
 
 // --- 2. KEMBANG API ---
 const fwCanvas = document.getElementById("fireworks-canvas"); const fwCtx = fwCanvas.getContext("2d", { alpha: false }); 
@@ -128,12 +129,41 @@ const orbitData = [ { emoji: "🧸", label: "Tempat Nyaman", title: "Tempat Nyam
 function initGalaxy() { const dpr = window.devicePixelRatio || 1; const w = window.innerWidth; const h = window.innerHeight; gxCanvas.width = w * dpr; gxCanvas.height = h * dpr; gxCanvas.style.width = w + "px"; gxCanvas.style.height = h + "px"; gxCtx.scale(dpr, dpr); gxParticles = []; bgStars = []; for(let i=0; i<300; i++) bgStars.push({ x: (Math.random()-0.5)*w*2, y: (Math.random()-0.5)*h*2, z: Math.random()*2000 }); for(let i=0; i<1500; i++) { let targetR = Math.random()*(Math.min(w, h)*0.7); gxParticles.push({ angle: Math.random()*Math.PI*20, targetRadius: targetR, radius: targetR + 1000 + Math.random()*1000, speed: Math.random()*0.003+0.001, size: Math.random()*2+0.5, color: `hsl(${Math.random()*60+260}, 100%, 70%)` }); } if(orbitElements.length === 0) createOrbitingElements(); }
 function createOrbitingElements() { const container = document.getElementById("orbit-container"); orbitData.forEach((data, i) => { const item = document.createElement("div"); item.className = "orbit-item"; item.innerHTML = `<div class="orbit-icon-sphere">${data.emoji}</div><div class="orbit-label">${data.label}</div>`; item.addEventListener("click", () => { document.getElementById("popup-emoji").innerText = data.emoji; document.getElementById("popup-title").innerText = data.title; document.getElementById("popup-text").innerText = data.text; document.getElementById("popup-modal").classList.remove("hidden"); }); container.appendChild(item); orbitElements.push({ el: item, offset: i * (Math.PI * 2 / orbitData.length) }); }); }
 function startGalaxyAnimation() { if(gxAnimationId) cancelAnimationFrame(gxAnimationId); initGalaxy(); galaxyStartTime = Date.now(); introPhase = true; document.querySelector('.center-heart').classList.remove('show'); document.getElementById('orbit-container').classList.remove('show'); animateGalaxy(); window.addEventListener('resize', initGalaxy); }
-function animateGalaxy() { const w = window.innerWidth; const h = window.innerHeight; gxAnimationId = requestAnimationFrame(animateGalaxy); gxTime += 0.05; const cx = w/2, cy = h/2; let elapsed = Date.now() - galaxyStartTime; let introProgress = Math.min(1, elapsed / 4000); gxCtx.globalAlpha = 1; gxCtx.fillStyle = 'rgba(5, 2, 10, 0.4)'; gxCtx.fillRect(0, 0, w, h); gxCtx.fillStyle = 'white'; bgStars.forEach(s => { let starSpeed = 2 + (1 - introProgress) * 15; s.z -= starSpeed; if(s.z <= 0) { s.z = 2000; s.x = (Math.random()-0.5)*w*2; s.y = (Math.random()-0.5)*h*2; } const scale = 500 / s.z; gxCtx.globalAlpha = Math.min(1, scale * 0.5); gxCtx.fillRect(cx + s.x*scale, cy + s.y*scale, scale*1.5, scale*1.5); }); if (introProgress > 0.4) { gxCtx.globalAlpha = (introProgress - 0.4) * 1.6; const grd = gxCtx.createRadialGradient(cx, cy, 0, cx, cy, 180); grd.addColorStop(0, 'rgba(255,255,255,0.9)'); grd.addColorStop(0.08, 'rgba(0,0,0,1)'); grd.addColorStop(0.2, 'rgba(148,0,211,0.6)'); grd.addColorStop(0.5, 'rgba(255,20,147,0.2)'); grd.addColorStop(1, 'transparent'); gxCtx.fillStyle = grd; gxCtx.fillRect(cx-180, cy-180, 360, 360); } gxParticles.forEach(p => { let swirlSpeed = p.speed + (1 - introProgress) * 0.1; p.angle += swirlSpeed; p.radius += (p.targetRadius - p.radius) * 0.05; const px = cx + Math.cos(p.angle) * p.radius; const py = cy + Math.sin(p.angle) * p.radius * 0.25; gxCtx.globalAlpha = 0.8; gxCtx.fillStyle = p.color; gxCtx.fillRect(px, py, p.size, p.size); }); if (introProgress >= 1 && introPhase) { introPhase = false; document.querySelector('.center-heart').classList.add('show'); document.getElementById('orbit-container').classList.add('show'); } if (!introPhase) { const orbitSpeed = gxTime * 0.05; const radiusX = Math.min(w * 0.4, 400); const radiusY = Math.min(h * 0.15, 150); orbitElements.forEach(item => { const angle = orbitSpeed + item.offset; const x = Math.cos(angle) * radiusX; const y = Math.sin(angle) * radiusY; const scale = (Math.sin(angle) + 2.5) / 3.5; const zIndex = Math.round(scale * 100); item.el.style.transform = `translate(-50%, -50%) translate(${cx + x}px, ${cy + y}px) scale(${scale})`; item.el.style.zIndex = zIndex; }); } }
+function animateGalaxy() { const w = window.innerWidth; const h = window.innerHeight; gxAnimationId = requestAnimationFrame(animateGalaxy); gxTime += 0.05; const cx = w/2, cy = h/2; let elapsed = Date.now() - galaxyStartTime; let introProgress = Math.min(1, elapsed / 4000); gxCtx.globalAlpha = 1; gxCtx.fillStyle = 'rgba(5, 2, 10, 0.4)'; gxCtx.fillRect(0, 0, w, h); gxCtx.fillStyle = 'white'; bgStars.forEach(s => { let starSpeed = 2 + (1 - introProgress) * 15; s.z -= starSpeed; if(s.z <= 0) { s.z = 2000; s.x = (Math.random()-0.5)*w*2; s.y = (Math.random()-0.5)*h*2; } const scale = 500 / s.z; gxCtx.globalAlpha = Math.min(1, scale * 0.5); gxCtx.fillRect(cx + s.x*scale, cy + s.y*scale, scale*1.5, scale*1.5); }); if (introProgress > 0.4) { gxCtx.globalAlpha = (introProgress - 0.4) * 1.6; const grd = gxCtx.createRadialGradient(cx, cy, 0, cx, cy, 180); grd.addColorStop(0, 'rgba(255,255,255,0.9)'); grd.addColorStop(0.08, 'rgba(0,0,0,1)'); grd.addColorStop(0.2, 'rgba(148,0,211,0.6)'); grd.addColorStop(0.5, 'rgba(255,20,147,0.2)'); grd.addColorStop(1, 'transparent'); gxCtx.fillStyle = grd; gxCtx.fillRect(cx-180, cy-180, 360, 360); } gxParticles.forEach(p => { let swirlSpeed = p.speed + (1 - introProgress) * 0.1; p.angle += swirlSpeed; p.radius += (p.targetRadius - p.radius) * 0.05; const px = cx + Math.cos(p.angle) * p.radius; const py = cy + Math.sin(p.angle) * p.radius * 0.25; gxCtx.globalAlpha = 0.8; gxCtx.fillStyle = p.color; gxCtx.fillRect(px, py, p.size, p.size); }); if (introProgress >= 1 && introPhase) { introPhase = false; document.querySelector('.center-heart').classList.add('show'); document.getElementById('orbit-container').classList.add('show'); } if (!introPhase) { const orbitSpeed = gxTime * 0.05; const radiusX = Math.min(w * 0.4, 400); const radiusY = Math.min(h * 0.15, 150); orbitElements.forEach(item => { const angle = orbitSpeed + item.offset; const x = Math.cos(angle) * radiusX; const y = Math.sin(angle) * radiusY; const scale = (Math.sin(angle) + 2.5) / 3.5; const zIndex = Math.round(scale * 100); item.el.style.transform = `translate3d(-50%, -50%, 0) translate3d(${cx + x}px, ${cy + y}px, 0) scale3d(${scale}, ${scale}, 1)`; item.el.style.zIndex = zIndex; }); } }
 document.getElementById("close-popup").addEventListener("click", () => document.getElementById("popup-modal").classList.add("hidden"));
 
 // --- 4. SURAT TERKETIK ---
 let typingActive = false; let typingTimeout;
-function startTypewriter() { const textElement = document.getElementById("typewriter-text"); const btnToMemories = document.getElementById("btn-to-memories"); textElement.innerHTML = ""; btnToMemories.classList.add("hidden"); const pesanSurat = "Happy Birthday, Dian! 🎉\n\nTeruntuk Dian sayang...\n\nDi hari ulang tahunmu yang spesial ini, aku cuma mau bilang terima kasih banyak udah hadir dan bertahan di hidupku. Kamu selalu jadi alasan terbaik buat aku tersenyum setiap harinya.\n\nSemoga semua yang kamu impikan dan cita-citakan bisa segera tercapai. Jangan lupa untuk selalu bahagia ya! Kita akan terus sama-sama bikin kenangan indah. I Love You to the moon and back! 💕"; let indexHuruf = 0; typingActive = true; function ngetik() { if (!typingActive || currentSlide !== 3) return; if (indexHuruf < pesanSurat.length) { if (pesanSurat.charAt(indexHuruf) === '\n') { textElement.innerHTML += "<br>"; } else { textElement.innerHTML += pesanSurat.charAt(indexHuruf); } indexHuruf++; typingTimeout = setTimeout(ngetik, 40); } else { btnToMemories.classList.remove("hidden"); } } clearTimeout(typingTimeout); ngetik(); }
+function startTypewriter() { 
+    const textElement = document.getElementById("typewriter-text"); 
+    const btnToMemories = document.getElementById("btn-to-memories"); 
+    textElement.innerHTML = ""; 
+    btnToMemories.classList.add("hidden"); 
+    const pesanSurat = "Happy Birthday, Dian! 🎉\n\nTeruntuk Dian sayang...\n\nDi hari ulang tahunmu yang spesial ini, aku cuma mau bilang terima kasih banyak udah hadir dan bertahan di hidupku. Kamu selalu jadi alasan terbaik buat aku tersenyum setiap harinya.\n\nSemoga semua yang kamu impikan dan cita-citakan bisa segera tercapai. Jangan lupa untuk selalu bahagia ya! Kita akan terus sama-sama bikin kenangan indah. I Love You to the moon and back! 💕"; 
+    let indexHuruf = 0; 
+    typingActive = true; 
+    
+    function ngetik() { 
+        if (!typingActive || currentSlide !== 3) return; 
+        if (indexHuruf < pesanSurat.length) { 
+            if (pesanSurat.charAt(indexHuruf) === '\n') { 
+                textElement.innerHTML += "<br>"; 
+            } else { 
+                textElement.innerHTML += pesanSurat.charAt(indexHuruf); 
+            } 
+            indexHuruf++; 
+            
+            // REVISI FIX: Menggulir otomatis ke bawah hanya pada area scroll internal teks surat saat pengetikan aktif
+            textElement.scrollTop = textElement.scrollHeight;
+            
+            typingTimeout = setTimeout(ngetik, 40); 
+        } else { 
+            btnToMemories.classList.remove("hidden"); 
+        } 
+    } 
+    clearTimeout(typingTimeout); 
+    ngetik(); 
+}
 document.getElementById("btn-to-memories").addEventListener("click", () => { goToSlide(4); });
 
 // --- 5. MEMORIES ---
