@@ -1,14 +1,8 @@
 :root { --bg-color: #FEF9C3; --nailong-yellow: #FDE68A; --dark-orange: #D97706; --accent-red: #F87171; --galaxy-bg: #05020a; }
 * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
 
-/* KUNCI ANTI-GESER LAYAR LUAR */
-html, body { 
-    width: 100%; 
-    max-width: 100%; 
-    height: 100%; 
-    overflow: hidden !important; 
-    position: relative;
-}
+/* KUNCI ANTI-GESER KIRI KANAN */
+html, body { width: 100%; max-width: 100%; overflow-x: hidden !important; }
 body { background: linear-gradient(135deg, #FEF08A, var(--bg-color)); min-height: 100vh; color: #444; overscroll-behavior-y: none; }
 
 .door { position: fixed; top: 0; width: 50%; height: 100%; background-color: var(--nailong-yellow); background-image: radial-gradient(rgba(255, 255, 255, 0.6) 3px, transparent 3px); background-size: 40px 40px; z-index: 15; transition: transform 1.5s cubic-bezier(0.77, 0, 0.175, 1); box-shadow: 0 0 20px rgba(0,0,0,0.2); will-change: transform; }
@@ -18,71 +12,40 @@ body { background: linear-gradient(135deg, #FEF08A, var(--bg-color)); min-height
 .door::before, #door-left::after, #door-right::after { background: linear-gradient(45deg, var(--accent-red) 35%, #fca5a5 50%, var(--accent-red) 65%) !important; background-size: 200% 200% !important; animation: ribbonShine 3s infinite linear !important; }
 @keyframes ribbonShine { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
 #door-left { left: 0; } #door-right { right: 0; }
-.door.open-left { transform: translate3d(-100%, 0, 0); } .door.open-right { transform: translate3d(100%, 0, 0); }
+.door.open-left { transform: translateX(-100%); } .door.open-right { transform: translateX(100%); }
 
-/* SCREEN UTAMA */
+/* SMOOTH SCROLL UNTUK HP */
 .screen { 
     position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
-    display: flex; flex-direction: column; align-items: center; justify-content: center; 
+    display: flex; flex-direction: column; align-items: center; justify-content: flex-start; 
     transition: opacity 1s, visibility 1s; z-index: 10; 
-    overflow: hidden !important; 
-    padding: 20px; 
+    overflow-y: auto; overflow-x: hidden !important; 
+    padding: 20px 0 100px 0; 
     -webkit-overflow-scrolling: touch; 
 }
 .screen.hidden { opacity: 0; visibility: hidden; pointer-events: none; z-index: -1; }
 
 #login-section { z-index: 50; justify-content: center; padding: 0; }
+.glass-card { position: relative; z-index: 10; background: rgba(254, 249, 195, 0.95); backdrop-filter: blur(10px); border: 2px solid rgba(255, 255, 255, 0.9); border-radius: 20px; padding: 2.5rem 2rem; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08); text-align: center; margin: auto; width: 90%; max-width: 500px; }
 
-/* KONTAINER UTAMA GLASS CARD */
-.glass-card { 
-    position: relative; z-index: 10; 
-    background: rgba(254, 249, 195, 0.95); 
-    backdrop-filter: blur(10px); 
-    border: 2px solid rgba(255, 255, 255, 0.9); 
-    border-radius: 20px; 
-    padding: 2.5rem 1.5rem; 
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08); 
-    text-align: center; 
-    margin: auto; 
-    width: 90%; 
-    max-width: 440px; 
-    max-height: 85vh; 
-    display: flex;
-    flex-direction: column;
-    align-items: center; 
-    justify-content: center;
-    overflow: hidden !important;
-}
+.login-box { animation: floatingCard 3s ease-in-out infinite; transform: translateZ(0); will-change: transform; }
+@keyframes floatingCard { 0%, 100% { transform: translateY(0) translateZ(0); } 50% { transform: translateY(-10px) translateZ(0); } }
 
-.login-box { display: flex; flex-direction: column; align-items: center; width: 100%; animation: floatingCard 3s ease-in-out infinite; transform: translate3d(0, 0, 0); will-change: transform; }
-@keyframes floatingCard { 0%, 100% { transform: translate3d(0, 0, 0); } 50% { transform: translate3d(0, -10px, 0); } }
-
-/* FIKSASI POSISI TENGAH KUNCI HATI */
-.kunci-hati-icon { 
-    display: flex !important; 
-    align-items: center; 
-    justify-content: center; 
-    width: 80px; 
-    height: 80px; 
-    margin: 0 auto 15px auto !important; 
-    animation: pulseHeart 1.5s infinite; 
-    position: relative; 
-    will-change: transform; 
-}
+.kunci-hati-icon { display: inline-flex; align-items: center; justify-content: center; width: 80px; height: 80px; margin-bottom: 15px; animation: pulseHeart 1.5s infinite; position: relative; will-change: transform; }
 .love-bg { font-size: 80px; color: var(--accent-red); text-shadow: 0 0 15px rgba(229, 57, 53, 0.4); }
-.key-fg { position: absolute; top: 50%; left: 50%; transform: translate3d(-50%, -50%, 0) rotate(-45deg); font-size: 32px; color: #FFFDE7; z-index: 2; margin-top: -3px; margin-left: 2px; }
-@keyframes pulseHeart { 0%, 100% { transform: scale3d(1, 1, 1); } 50% { transform: scale3d(1.12, 1.12, 1); } }
-.login-box h2 { font-family: 'Dancing Script', cursive; font-size: 2.8rem; color: var(--dark-orange); margin-bottom: 5px; text-align: center; width: 100%; }
-.login-box p { color: #666; font-size: 0.95rem; margin-bottom: 25px; text-align: center; }
+.key-fg { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(-45deg); font-size: 32px; color: #FFFDE7; z-index: 2; margin-top: -3px; margin-left: 2px; }
+@keyframes pulseHeart { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.12); } }
+.login-box h2 { font-family: 'Dancing Script', cursive; font-size: 2.8rem; color: var(--dark-orange); margin-bottom: 5px; }
+.login-box p { color: #666; font-size: 0.95rem; margin-bottom: 25px; }
 .login-box input { width: 100%; padding: 14px; margin: 0 0 20px 0; border: 2px solid rgba(251, 191, 36, 0.5); border-radius: 10px; text-align: center; font-size: 1rem; outline: none; }
-.pulse-btn { background: var(--dark-orange); color: white; border: none; padding: 12px 24px; border-radius: 30px; font-size: 1.1rem; font-weight: 600; cursor: pointer; transition: 0.3s; box-shadow: 0 0 15px rgba(251, 191, 36, 0.5); transform: translate3d(0, 0, 0); }
-.pulse-btn:hover { background: #B45309; transform: scale3d(1.05, 1.05, 1); }
+.pulse-btn { background: var(--dark-orange); color: white; border: none; padding: 12px 24px; border-radius: 30px; font-size: 1.1rem; font-weight: 600; cursor: pointer; transition: 0.3s; box-shadow: 0 0 15px rgba(251, 191, 36, 0.5); transform: translateZ(0); }
+.pulse-btn:hover { background: #B45309; transform: scale(1.05); }
 #error-msg { display: none; color: #ef4444; font-size: 0.9rem; margin-top: 10px; font-weight: bold; }
 #error-msg:not(.hidden) { display: block; animation: shakeError 0.5s; }
-@keyframes shakeError { 0%, 100% { transform: translate3d(0, 0, 0); } 20%, 60% { transform: translate3d(-5px, 0, 0); } 40%, 80% { transform: translate3d(5px, 0, 0); } }
+@keyframes shakeError { 0%, 100% { transform: translateX(0); } 20%, 60% { transform: translateX(-5px); } 40%, 80% { transform: translateX(5px); } }
 
 .login-sparkle { position: absolute; bottom: -20px; animation: floatUp linear infinite; z-index: 1; opacity: 0.7; pointer-events: none; will-change: transform, opacity; }
-@keyframes floatUp { 0% { transform: translate3d(0, 0, 0) rotate(0deg); opacity: 0; } 10% { opacity: 0.8; } 100% { transform: translate3d(0, -110vh, 0) rotate(360deg); opacity: 0; } }
+@keyframes floatUp { 0% { transform: translateY(0) rotate(0deg); opacity: 0; } 10% { opacity: 0.8; } 100% { transform: translateY(-110vh) rotate(360deg); opacity: 0; } }
 
 #fireworks-section { background: radial-gradient(circle at bottom, #1b2735 0%, #090a0f 100%); z-index: 5; }
 #fireworks-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
@@ -91,60 +54,41 @@ body { background: linear-gradient(135deg, #FEF08A, var(--bg-color)); min-height
 .fireworks-text { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 10; }
 
 .glow-text { 
-    position: absolute; top: 50%; left: 50%; transform: translate3d(-50%, -50%, 0); 
+    position: absolute; transform: translate(-50%, -50%); 
     font-family: 'Luckiest Guy', cursive; color: #ffffff; 
-    font-size: clamp(1.6rem, 7vw, 3.5rem); 
+    font-size: clamp(1.8rem, 8vw, 3.5rem); 
     text-align: center; white-space: normal; 
     width: 90%; line-height: 1.2;
-    will-change: transform, opacity;
-    animation: burstText 2.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; 
+    animation: burstText 2.5s forwards; 
 }
-@keyframes burstText { 0% { transform: translate3d(-50%, -50%, 0) scale3d(0, 0, 1); opacity: 0; } 15% { transform: translate3d(-50%, -50%, 0) scale3d(1.1, 1.1, 1); opacity: 1; } 80% { transform: translate3d(-50%, -50%, 0) scale3d(1, 1, 1); opacity: 1; } 100% { transform: translate3d(-50%, -50%, 0) scale3d(1.3, 1.3, 1); opacity: 0; } }
+@keyframes burstText { 0% { transform: translate(-50%, -50%) scale(0); opacity: 0; } 15% { transform: translate(-50%, -50%) scale(1.2); opacity: 1; } 80% { transform: translate(-50%, -50%) scale(1); opacity: 1; } 100% { transform: translate(-50%, -50%) scale(1.5); opacity: 0; } }
 
 #galaxy-section { background: var(--galaxy-bg); z-index: 6; overflow: hidden; justify-content: center; }
 #galaxy-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; }
-.center-heart { position: absolute; top: 50%; left: 50%; width: 140px; height: 140px; z-index: 50; pointer-events: none; transform: translate3d(-50%, -50%, 0) scale3d(0, 0, 1); opacity: 0; transition: transform 1.5s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 1.5s; }
-.center-heart.show { opacity: 1; transform: translate3d(-50%, -50%, 0) scale3d(1, 1, 1); }
-.heart-pulse-wrapper { width: 100%; height: 100%; filter: drop-shadow(0 0 15px #ff3366); animation: heartPulseNeon 1.5s infinite alternate; }
-@keyframes heartPulseNeon { from { transform: scale3d(1, 1, 1); } to { transform: scale3d(1.08, 1.08, 1); } }
-
-/* FIX KUNCI SEBELUMNYA: Tambahkan kembali position absolute agar tulisan planet kembali memutar di tengah */
+.center-heart { position: absolute; top: 50%; left: 50%; width: 180px; height: 180px; z-index: 50; pointer-events: none; transform: translate(-50%, -50%) scale(0); opacity: 0; transition: transform 1.5s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 1.5s; }
+.center-heart.show { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+.heart-pulse-wrapper { width: 100%; height: 100%; filter: drop-shadow(0 0 20px #ff3366) drop-shadow(0 0 40px #ff0055); animation: heartPulseNeon 1.5s infinite alternate; }
+@keyframes heartPulseNeon { from { transform: scale(1); filter: drop-shadow(0 0 15px #ff3366); } to { transform: scale(1.08); filter: drop-shadow(0 0 25px #ff3366) drop-shadow(0 0 50px #ff0055); } }
 #orbit-container { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; opacity: 0; transition: opacity 2s ease-in; }
 #orbit-container.show { opacity: 1; }
-.orbit-item { position: absolute !important; display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; pointer-events: auto; transition: filter 0.3s; will-change: transform; }
-.orbit-icon-sphere { width: 55px; height: 55px; background: rgba(20, 0, 40, 0.7); border: 2px solid #ff69b4; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 26px; box-shadow: 0 0 12px #ff69b4, inset 0 0 10px rgba(255,255,255,0.4); }
-.orbit-label { margin-top: 6px; color: #ff9ff3; font-size: 11px; font-weight: 600; text-shadow: 0 0 4px #ff69b4; white-space: nowrap; background: rgba(0,0,0,0.6); padding: 2px 8px; border-radius: 12px; border: 1px solid rgba(255, 105, 180, 0.3); }
+.orbit-item { position: absolute; display: flex; flex-direction: column; align-items: center; justify-content: center; transform-origin: center; cursor: pointer; pointer-events: auto; transition: filter 0.3s; will-change: transform; }
+.orbit-item:hover { filter: drop-shadow(0 0 15px rgba(255,105,180, 1)); }
+.orbit-icon-sphere { width: 60px; height: 60px; background: rgba(20, 0, 40, 0.7); border: 2px solid #ff69b4; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 30px; box-shadow: 0 0 15px #ff69b4, inset 0 0 15px rgba(255,255,255,0.4); }
+.orbit-label { margin-top: 8px; color: #ff9ff3; font-size: 12px; font-weight: 600; text-shadow: 0 0 5px #ff69b4; white-space: nowrap; background: rgba(0,0,0,0.5); padding: 3px 10px; border-radius: 12px; border: 1px solid rgba(255, 105, 180, 0.3); }
 
 /* MODAL GALAKSI */
 #popup-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(8px); display: flex; align-items: center; justify-content: center; z-index: 300; transition: 0.4s ease; padding: 20px; }
 #popup-modal.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
-.popup-glass { background: linear-gradient(135deg, rgba(255, 20, 147, 0.2), rgba(75, 0, 130, 0.4)); border: 1px solid rgba(255, 255, 255, 0.3); box-shadow: 0 0 40px rgba(255, 20, 147, 0.4); border-radius: 20px; padding: 30px 20px; width: 100%; max-width: 400px; text-align: center; color: white; transform: scale3d(1, 1, 1); transition: 0.4s; position: relative; }
-#popup-modal.hidden .popup-glass { transform: scale3d(0.5, 0.5, 1); }
+.popup-glass { background: linear-gradient(135deg, rgba(255, 20, 147, 0.2), rgba(75, 0, 130, 0.4)); border: 1px solid rgba(255, 255, 255, 0.3); box-shadow: 0 0 40px rgba(255, 20, 147, 0.4); border-radius: 20px; padding: 30px 20px; width: 100%; max-width: 400px; text-align: center; color: white; transform: scale(1); transition: 0.4s; position: relative; }
+#popup-modal.hidden .popup-glass { transform: scale(0.5); }
 #close-popup { position: absolute; top: 15px; right: 15px; background: rgba(255,255,255,0.2); border: none; color: white; width: 35px; height: 35px; border-radius: 50%; cursor: pointer; transition: 0.3s; }
 #close-popup:hover { background: #ff4757; transform: rotate(90deg); }
 #popup-emoji { font-size: 60px; margin-bottom: 10px; animation: pulseHeart 2s infinite; }
 #popup-title { font-family: 'Dancing Script', cursive; font-size: 2.5rem; color: #ff9ff3; margin-bottom: 10px; }
 #popup-text { font-size: 1.05rem; line-height: 1.6; color: #eee; }
 
-/* AREA SURAT INTERNAL SCROLL MANDIRI */
-.typewriter { 
-    font-size: 1.02rem; 
-    line-height: 1.6; 
-    color: #444; 
-    border-left: 3px solid #ff4081; 
-    padding: 2px 0 2px 12px; 
-    font-weight: 500; 
-    text-align: left; 
-    width: 100%;
-    max-height: 38vh;          
-    overflow-y: auto !important;
-    scrollbar-width: thin;     
-    scrollbar-color: #ff4081 transparent;
-    -webkit-overflow-scrolling: touch;
-}
-.typewriter::-webkit-scrollbar { width: 4px; }
-.typewriter::-webkit-scrollbar-track { background: transparent; }
-.typewriter::-webkit-scrollbar-thumb { background-color: #ff4081; border-radius: 10px; }
+/* SURAT TERKETIK */
+.typewriter { font-size: 1.05rem; line-height: 1.6; color: #444; min-height: 180px; border-left: 3px solid #ff4081; padding-left: 15px; font-weight: 500; text-align: left; }
 .typewriter::after { content: '|'; animation: blinkCursor 0.7s infinite; color: #ff4081; font-weight: bold; }
 @keyframes blinkCursor { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
 
@@ -153,62 +97,99 @@ body { background: linear-gradient(135deg, #FEF08A, var(--bg-color)); min-height
 .v-row { display: flex; justify-content: center; width: 100%; position: relative; }
 .top-row { gap: 15px; margin-bottom: 10px; }
 .bottom-row { gap: 8px; margin-top: -15px; }
+
 .v-polaroid { background: #fff; padding: 6px 6px 20px 6px; border-radius: 2px; box-shadow: 0 4px 15px rgba(217, 119, 6, 0.25); cursor: pointer; transition: transform 0.3s ease, z-index 0.3s ease; position: relative; border: 1px solid #eee; }
 .v-polaroid img { width: 100%; height: 100%; object-fit: cover; border-radius: 2px; }
-.top-row .v-polaroid { width: 115px; height: 125px; }
-.bottom-row .v-polaroid { width: 80px; height: 90px; }
+
+.top-row .v-polaroid { width: 120px; height: 130px; }
+.bottom-row .v-polaroid { width: 85px; height: 95px; }
+
 .p-1 { transform: rotate(-6deg); margin-top: 15px; z-index: 2; }
 .p-2 { transform: rotate(5deg); margin-top: -5px; z-index: 1; }
 .p-3 { transform: rotate(4deg); margin-top: 10px; z-index: 1; }
 .p-4 { transform: rotate(-2deg); margin-top: -10px; z-index: 3; } 
 .p-5 { transform: rotate(-5deg); margin-top: 15px; z-index: 2; }
-.v-polaroid:hover { transform: scale3d(1.15, 1.15, 1) rotate(0deg) !important; z-index: 20 !important; box-shadow: 0 10px 25px rgba(217, 119, 6, 0.4); }
+.v-polaroid:hover { transform: scale(1.15) rotate(0deg) !important; z-index: 20 !important; box-shadow: 0 10px 25px rgba(217, 119, 6, 0.4); }
 
 /* MODAL FOTO MEMORIES */
 #memory-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(5px); display: flex; align-items: center; justify-content: center; z-index: 10000; transition: 0.3s; padding: 20px; }
 #memory-modal.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
 .memory-glass { background: rgba(254, 249, 195, 0.95); backdrop-filter: blur(10px); border: 2px solid rgba(255, 255, 255, 0.9); padding: 20px; border-radius: 20px; text-align: center; width: 100%; max-width: 350px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); position: relative; }
 #close-memory { position: absolute; top: -15px; right: -15px; color: white; background: #ff4081; width: 35px; height: 35px; border-radius: 50%; font-size: 16px; border: none; cursor: pointer; transition: 0.3s; box-shadow: 0 2px 5px rgba(0,0,0,0.2); z-index: 10; }
-#close-memory:hover { transform: scale3d(1.1, 1.1, 1); background: #e91e63; }
-#memory-img { display: block !important; width: auto !important; max-width: 100% !important; height: auto !important; max-height: 45vh !important; object-fit: contain !important; margin: 0 auto 15px auto !important; border-radius: 5px; border: 3px solid white; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+#close-memory:hover { transform: scale(1.1); background: #e91e63; }
+
+#memory-img { 
+    display: block !important; width: auto !important; max-width: 100% !important; 
+    height: auto !important; max-height: 50vh !important; object-fit: contain !important; 
+    margin: 0 auto 15px auto !important; border-radius: 5px; border: 3px solid white; 
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
 #memory-title { font-family: 'Dancing Script', cursive; font-size: 2.2rem; color: #ff4081; margin-bottom: 5px; text-shadow: 0 1px 3px rgba(0,0,0,0.1); }
 #memory-text { color: #444; font-size: 0.95rem; line-height: 1.5; font-weight: 500; }
 
 .heart { position: fixed; top: -10vh; font-size: 1.5rem; animation: fall linear infinite; z-index: 5; pointer-events: none; opacity: 0.7;}
-@keyframes fall { to { transform: translate3d(0, 110vh, 0) rotate(360deg); } }
+@keyframes fall { to { transform: translateY(110vh) rotate(360deg); } }
 
 /* NAVIGASI BAWAH */
-#nav-controls { position: fixed; bottom: 25px; left: 0; width: 100%; padding: 0 25px; display: flex; justify-content: space-between; z-index: 1000; transition: opacity 0.5s; pointer-events: none; }
+#nav-controls { 
+    position: fixed; bottom: 30px; left: 0; width: 100%; padding: 0 20px; 
+    display: flex; justify-content: space-between; z-index: 1000; 
+    transition: opacity 0.5s; pointer-events: none; 
+}
 #nav-controls.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
-.nav-btn { pointer-events: auto; background: rgba(255, 255, 255, 0.15); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.4); color: white; padding: 10px 20px; border-radius: 30px; font-size: 1rem; font-weight: 600; cursor: pointer; transition: 0.3s; box-shadow: 0 4px 15px rgba(0,0,0,0.2); display: flex; align-items: center; gap: 8px; -webkit-text-stroke: 0.6px black; text-shadow: 1px 1px 2px rgba(0,0,0,0.8); }
-.nav-btn:hover { background: rgba(255, 255, 255, 0.3); transform: scale3d(1.05, 1.05, 1); }
+
+.nav-btn { 
+    pointer-events: auto; background: rgba(255, 255, 255, 0.15); 
+    backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.4); 
+    color: white; padding: 10px 20px; border-radius: 30px; 
+    font-size: 1rem; font-weight: 600; cursor: pointer; transition: 0.3s; 
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2); display: flex; align-items: center; gap: 8px;
+    -webkit-text-stroke: 0.6px black; text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
+}
+.nav-btn:hover { background: rgba(255, 255, 255, 0.3); transform: scale(1.05); }
+
 #music-toggle { position: fixed; top: 20px; right: 20px; z-index: 1000; width: 50px; height: 50px; }
 
-/* MEDIA QUERIES RESPONSIF DEVICE */
-@media (min-width: 769px) {
-    .typewriter { max-height: 48vh; }
-    .video-memories-grid { transform: scale(1.1); }
+
+/* =========================================================
+   PERBAIKAN MINIMAL (HANYA INI YANG DITAMBAHKAN DARI KODE AWAL)
+   ========================================================= */
+
+/* 1. Posisi Ikon Kunci Hati Pas di Tengah */
+.login-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.kunci-hati-icon {
+    margin: 0 auto 15px auto !important;
 }
 
+/* 2. Surat dikasih batas biar bisa di-scroll tanpa geser layar */
+.typewriter {
+    max-height: 40vh;
+    overflow-y: auto;
+}
+.typewriter::-webkit-scrollbar { width: 4px; }
+.typewriter::-webkit-scrollbar-thumb { background-color: #ff4081; border-radius: 10px; }
+
+/* 3. Skala Galaxy dikecilkan khusus di HP */
 @media (max-width: 768px) {
-    /* Skala menu lingkaran agar pas tengah di layar HP */
-    #orbit-container.show {
-        transform: scale(0.72); 
+    #orbit-container {
+        transform: scale(0.75);
         transform-origin: center center;
     }
 }
 
+/* 4. Pengecilan Tombol (Buka Kado, Memories, dll) di layar HP */
 @media (max-width: 500px) {
-    /* Batasi tombol login utama dan tombol bawaan agar tidak kebesaran */
-    .pulse-btn {
-        width: auto !important;
-        min-width: 200px;
-        max-width: 280px;
-    }
-    .glass-card { width: 92%; padding: 1.5rem 1rem; max-height: 82vh; }
+    .glass-card { width: 92%; padding: 1.5rem 1rem; }
     .orbit-icon-sphere { width: 45px; height: 45px; font-size: 22px; }
-    .orbit-label { font-size: 10px; padding: 2px 8px; }
-    .typewriter { max-height: 35vh; font-size: 0.95rem; line-height: 1.6; }
-    .login-box h2 { font-size: 2.2rem; }
-    .center-heart { width: 110px; height: 110px; }
+    .center-heart { width: 120px; height: 120px; }
+    
+    .pulse-btn {
+        padding: 8px 18px !important;
+        font-size: 0.9rem !important;
+        width: auto !important;
+    }
 }
