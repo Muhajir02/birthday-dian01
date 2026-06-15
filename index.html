@@ -58,7 +58,8 @@
 
     <!-- TAHAP 4: Surat Terketik Otomatis -->
     <div id="typewriter-section" class="screen hidden">
-        <div class="glass-card" style="width: 90%; max-width: 500px; text-align: left; padding: 30px;">
+        <div id="falling-hearts-container"></div>
+        <div class="glass-card">
             <div style="text-align: center; margin-bottom: 20px;">
                 <h2 style="font-family: 'Dancing Script', cursive; font-size: 2.8rem; color: #ff4081; text-shadow: 0 2px 5px rgba(0,0,0,0.2);">Teruntukmu,</h2>
             </div>
@@ -69,20 +70,17 @@
         </div>
     </div>
 
-    <!-- TAHAP 5: Halaman Memories (TEMA 100% SAMA DENGAN SURAT) -->
+    <!-- TAHAP 5: Halaman Memories -->
     <div id="memories-section" class="screen hidden">
-        <!-- Pakai glass-card persis seperti surat -->
-        <div class="glass-card" style="width: 90%; max-width: 500px; padding: 30px 15px; text-align: center;">
+        <div class="glass-card" style="padding: 30px 15px;">
             <h2 style="font-family: 'Dancing Script', cursive; font-size: 2.8rem; color: #ff4081; text-shadow: 0 2px 5px rgba(0,0,0,0.2); margin-bottom: 5px;">Our Memories</h2>
             <p style="font-size: 0.9rem; color: #666; margin-bottom: 25px; line-height: 1.5; font-weight: 500;">Momen indah yang selalu aku simpan rapi.<br>(Klik foto untuk memperbesar)</p>
             
             <div class="video-memories-grid">
-                <!-- Baris Atas (2 Foto) -->
                 <div class="v-row top-row">
                     <div class="v-polaroid p-1" onclick="openMemory(0)"><img src="img/foto1.jpeg" alt="Memori 1"></div>
                     <div class="v-polaroid p-2" onclick="openMemory(1)"><img src="img/foto2.jpeg" alt="Memori 2"></div>
                 </div>
-                <!-- Baris Bawah (3 Foto) -->
                 <div class="v-row bottom-row">
                     <div class="v-polaroid p-3" onclick="openMemory(2)"><img src="img/foto3.jpeg" alt="Memori 3"></div>
                     <div class="v-polaroid p-4" onclick="openMemory(3)"><img src="img/foto4.jpeg" alt="Memori 4"></div>
@@ -102,7 +100,7 @@
         </div>
     </div>
 
-    <!-- Modal Pop-Up Khusus Foto Memories (TEMA SURAT) -->
+    <!-- Modal Pop-Up Khusus Foto Memories -->
     <div id="memory-modal" class="hidden">
         <div class="memory-glass">
             <button id="close-memory"><i class="fas fa-times"></i></button>
@@ -112,7 +110,7 @@
         </div>
     </div>
 
-    <!-- Navigasi Bawah (KEMBALI KE AWAL DENGAN STROKE HITAM) -->
+    <!-- Navigasi Bawah -->
     <div id="nav-controls" class="hidden">
         <button id="btn-prev" class="nav-btn"><i class="fas fa-chevron-left"></i> Back</button>
         <button id="btn-next" class="nav-btn">Next <i class="fas fa-chevron-right"></i></button>
